@@ -1,6 +1,47 @@
+# Node / web
 node_modules
 dist
 .vite
-*.local
+
+# Laravel
+/backend/vendor
+/backend/node_modules
+/backend/public/build
+/backend/public/hot
+/backend/public/storage
+/backend/storage/*.key
+/backend/storage/pail
+/backend/.env
+/backend/.env.backup
+/backend/.env.production
+/backend/.phpunit.result.cache
+/backend/Homestead.json
+/backend/Homestead.yaml
+/backend/auth.json
+/backend/database/*.sqlite
+/backend/database/*.sqlite-journal
+
+# Xcode
+/ios/**/xcuserdata/
+/ios/**/*.xcuserstate
+/ios/**/DerivedData/
+/ios/build/
+/ios/Pods/
+/ios/*.xcworkspace/xcuserdata/
+
+# Fastlane
+/ios/fastlane/report.xml
+/ios/fastlane/Preview.html
+/ios/fastlane/screenshots/**/*.png
+/ios/fastlane/test_output
+/ios/fastlane/*.mobileprovision
+/ios/fastlane/*.cer
+/ios/fastlane/*.p12
+/ios/fastlane/AuthKey_*.p8
+
+# OS / editors
 .DS_Store
+*.local
 npm-debug.log*
+.idea
+.vscode
