@@ -42,6 +42,8 @@ class FieldDefinition extends Model
         }
 
         $base = array_map(fn ($field) => [
+            // Base fields have no addressable row — they cannot be deleted.
+            'definitionId' => null,
             'key' => $field['key'],
             'section' => $field['section'],
             'label' => $field['label'],
@@ -60,6 +62,7 @@ class FieldDefinition extends Model
             ->orderBy('id')
             ->get()
             ->map(fn (self $definition) => [
+                'definitionId' => $definition->id,
                 'key' => $definition->key,
                 'section' => $definition->section,
                 'label' => $definition->label,

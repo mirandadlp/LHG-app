@@ -1,0 +1,149 @@
+# Release automation for the London Property Hub iOS app.
+#
+# The short version:
+#   fastlane beta      → build and upload to TestFlight
+#   fastlane release   → build and submit to the App Store
+#   fastlane tests     → run the unit tests
+#
+# Authentication uses an App Store Connect API key, which works without
+# interactive 2FA and is the only sane option in CI. Create one at
+# App Store Connect → Users and Access → Integrations → App Store Connect API,
+# download the .p8, and set:
+#
+#   ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_PATH   (path to the .p8)
+#
+# Without those set, the lanes fall back to interactive sign-in.
+
+default_platform(:ios)
+
+SCHEME = "London Property Hub".freeze
+PROJECT = "LondonPropertyHub.xcodeproj".freeze
+
+platform :ios do
+
+  before_all do
+    setup_ci if ENV["CI"]
+  end
+
+  desc "Run the unit tests"
+  lane :tests do
+    run_tests(
+      project: PROJECT,
+      scheme: SCHEME,
+      devices: ["iPhone 16"],
+      clean: true,
+      result_bundle: true
+    )
+  end
+
+  desc "Build and upload a build to TestFlight"
+  lane :beta do
+    api_key = app_store_connect_api_key_if_available
+
+    ensure_git_status_clean unless ENV["FASTLANE_SKIP_CLEAN_CHECK"]
+
+    # Build number is the count of commits, so it always increases and never
+    # needs to be remembered or bumped by hand.
+    increment_build_number(
+      xcodeproj: PROJECT,
+      build_number: number_of_commits(all: true).to_s
+    )
+
+    build_app(
+      project: PROJECT,
+      scheme: SCHEME,
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "build",
+      output_name: "LondonPropertyHub.ipa",
+      clean: true,
+      export_options: {
+        uploadSymbols: true,
+        manageAppVersionAndBuildNumber: false
+      }
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      skip_waiting_for_build_processing: true,
+      changelog: changelog_from_git_commits(
+        commits_count: 15,
+        pretty: "- %s",
+        merge_commit_filtering: "exclude_merges"
+      ),
+      distribute_external: false
+    )
+
+    UI.success("Uploaded to TestFlight. It appears in App Store Connect once processing finishes.")
+  end
+
+  desc "Build and submit to the App Store for review"
+  lane :release do
+    api_key = app_store_connect_api_key_if_available
+
+    ensure_git_status_clean unless ENV["FASTLANE_SKIP_CLEAN_CHECK"]
+
+    increment_build_number(
+      xcodeproj: PROJECT,
+      build_number: number_of_commits(all: true).to_s
+    )
+
+    build_app(
+      project: PROJECT,
+      scheme: SCHEME,
+      configuration: "Release",
+      export_method: "app-store",
+      output_directory: "build",
+      output_name: "LondonPropertyHub.ipa",
+      clean: true
+    )
+
+    upload_to_app_store(
+      api_key: api_key,
+      submit_for_review: true,
+      automatic_release: false,
+      force: true,                    # Skip the HTML preview prompt.
+      precheck_include_in_app_purchases: false,
+      skip_screenshots: true,         # Managed in App Store Connect directly.
+      submission_information: {
+        # This is an internal business tool: no ads, no tracking, no IDFA.
+        add_id_info_uses_idfa: false,
+        export_compliance_uses_encryption: false,
+        content_rights_contains_third_party_content: false
+      }
+    )
+
+    UI.success("Submitted for review. Watch App Store Connect for the outcome.")
+  end
+
+  desc "Refresh signing certificates and profiles (App Store distribution)"
+  lane :certificates do
+    # Uses `match` if you have a certificates repo; otherwise Xcode's automatic
+    # signing handles it and this lane is unnecessary.
+    if ENV["MATCH_GIT_URL"]
+      match(type: "appstore", readonly: ENV["CI"] ? true : false)
+    else
+      UI.important("MATCH_GIT_URL is not set — relying on Xcode automatic signing.")
+    end
+  end
+
+  # ---------------------------------------------------------------------------
+
+  # Returns an API key hash when the environment provides one, otherwise nil so
+  # fastlane falls back to interactive sign-in.
+  def app_store_connect_api_key_if_available
+    return nil unless ENV["ASC_KEY_ID"] && ENV["ASC_ISSUER_ID"] && ENV["ASC_KEY_PATH"]
+
+    app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_filepath: ENV["ASC_KEY_PATH"],
+      duration: 1200,
+      in_house: false
+    )
+  end
+
+  error do |lane, exception|
+    UI.error("Lane #{lane} failed: #{exception.message}")
+  end
+end

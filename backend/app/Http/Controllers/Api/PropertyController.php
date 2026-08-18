@@ -173,6 +173,10 @@ class PropertyController extends Controller
             'comment' => ['nullable', 'string', 'max:500'],
         ]);
 
+        // `comment` is nullable, so the key is absent when it is not sent and
+        // empty when the reviewer left the box blank. Both mean "no comment".
+        $comment = trim((string) ($validated['comment'] ?? ''));
+
         $previous = $property->verification_status;
 
         $property->forceFill([
@@ -187,7 +191,7 @@ class PropertyController extends Controller
             $previous,
             Property::STATUS_VERIFIED,
             $request->user(),
-            $validated['comment'] ?: 'Approved by corporate',
+            $comment !== '' ? $comment : 'Approved by corporate',
         );
 
         // Approving the record approves the edits that made it up.
@@ -211,6 +215,8 @@ class PropertyController extends Controller
             'comment' => ['nullable', 'string', 'max:500'],
         ]);
 
+        $comment = trim((string) ($validated['comment'] ?? ''));
+
         $previous = $property->verification_status;
 
         $property->forceFill([
@@ -223,7 +229,7 @@ class PropertyController extends Controller
             $previous,
             Property::STATUS_CHANGES_REQUESTED,
             $request->user(),
-            $validated['comment'] ?: 'Changes requested by corporate',
+            $comment !== '' ? $comment : 'Changes requested by corporate',
         );
 
         return new PropertyResource($property->fresh(self::EAGER));

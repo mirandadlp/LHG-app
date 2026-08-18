@@ -1,0 +1,627 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7C0065E4B0104ED9A993C6F4 /* LondonPropertyHubApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720B47D8BD56991AE4B4D255 /* LondonPropertyHubApp.swift */; };
+		37D8E38E0011381CD8B31550 /* CoreComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0916E37B7CDDD091C7A49F2D /* CoreComponents.swift */; };
+		9B0CD64228FB42E0A97EBF08 /* FieldEditor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14493CFE9B9DA7358047ED16 /* FieldEditor.swift */; };
+		6CF45C94762C85649E7700F1 /* PropertyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CC69B46F5BC1956DF87C54 /* PropertyCard.swift */; };
+		68865EEE797DD80D224D8D63 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3315CB741507839FE5CA00A8 /* Theme.swift */; };
+		A0ED01B0AB560DA8B529DC03 /* CoreModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A9066C30916B462F96E6C93 /* CoreModels.swift */; };
+		CF22425B7A60AF828FEE9FB7 /* PropertyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1849DBF8645D7B554A98E8C /* PropertyModels.swift */; };
+		C747645B9EF071F10427C099 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = D051870728C11B99A8836F79 /* APIClient.swift */; };
+		37A8E911032485ABE4171E3F /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = CACEDD44B79DEF8E343791A5 /* APIConfiguration.swift */; };
+		864FB273CD9909EC3116FB90 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A510658961328E07EF6E1894 /* APIError.swift */; };
+		DF689DA9F4950A8333369F80 /* PropertyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA98E30A61C1F8FE58D1B15C /* PropertyAPI.swift */; };
+		3F1CD13B0E3CE2187C744A0E /* TokenStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 257053A1DBF0324A0EEFDB1C /* TokenStore.swift */; };
+		6713234F6A93AA71CD9C1442 /* AdminFieldsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83F347EAFE156FA66C9EE1A3 /* AdminFieldsScreen.swift */; };
+		AD26EC77111F2003DBEC9F6D /* ApprovalsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E07E2F27A67A1624887FE12 /* ApprovalsScreen.swift */; };
+		2A70CF0E529722A6AD9F4A92 /* DashboardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AA7430DA42131759073E10 /* DashboardScreen.swift */; };
+		303DA52896C0CA85F71F6BBD /* DirectoryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E7C25ADB3853462526E176 /* DirectoryScreen.swift */; };
+		886DDE23FBF764B7341FADF1 /* ImportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9821A93CF9682F2FD51A649F /* ImportScreen.swift */; };
+		2C5DAC730511BCBD18D02595 /* MainShell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E3EA38EF375B47C5623BBC /* MainShell.swift */; };
+		94786EDE8AD394D9FDAB45B5 /* NewPropertySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 766AF5C36162922C2847ECB2 /* NewPropertySheet.swift */; };
+		1DAAE4278897A2C5B78796AE /* DetailTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7FB07B7A1C4AA036EF2DA1 /* DetailTabs.swift */; };
+		74316859BFAF1B8A0302CB9A /* DocumentsHistoryTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FF0E4000AD3AD3186CA1633 /* DocumentsHistoryTabs.swift */; };
+		84C2C6B5362D1D5936CD3DA0 /* PropertyDetailScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961883A76AD2B2A051692F8D /* PropertyDetailScreen.swift */; };
+		07C89E9CD069A81C6E8197BE /* SubRecordTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAFC1B48FED1097BC21A3114 /* SubRecordTabs.swift */; };
+		6A7A8F13761EAA53D74B5635 /* ReportsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233ED6910E1B9DE6436DC070 /* ReportsScreen.swift */; };
+		DDBBD49AE9AD31D0D5E8A857 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EF14C7B08E1D6615B0B7B6 /* SignInView.swift */; };
+		B11018D71345A3F79919D34B /* PortfolioStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A715B432E3E43D9EE7181C8C /* PortfolioStore.swift */; };
+		0EB4103FB14FB11BFAAD6D20 /* PropertyStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81280D28787DF01FE3A17B0 /* PropertyStore.swift */; };
+		9ABC288DBBB0F4D969B61B01 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F34D7273B82A890DE248DD74 /* SessionStore.swift */; };
+		1475DC1DBF956C70EAEB06DC /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 142232920FEEA942159774D7 /* FlowLayout.swift */; };
+		87507045EAD80BDF2B7F12A7 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 40CEFDBCB09138C826232F71 /* Assets.xcassets */; };
+		BA6B17566DB9C601890FD327 /* ModelDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0952E703BA1E9B502FD5ADC7 /* ModelDecodingTests.swift */; };
+		479CFD0DD4ABAF0CC90BC35E /* PropertyDetailDecodingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28D9242884EAA0B9B82AB31E /* PropertyDetailDecodingTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2B4D2F8BFE54E9562F422278 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 29C7B681C8D62CBAC94D51C0;
+			remoteInfo = LondonPropertyHub;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		720B47D8BD56991AE4B4D255 /* LondonPropertyHubApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LondonPropertyHubApp.swift; sourceTree = "<group>"; };
+		0916E37B7CDDD091C7A49F2D /* CoreComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreComponents.swift; sourceTree = "<group>"; };
+		14493CFE9B9DA7358047ED16 /* FieldEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldEditor.swift; sourceTree = "<group>"; };
+		C5CC69B46F5BC1956DF87C54 /* PropertyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyCard.swift; sourceTree = "<group>"; };
+		3315CB741507839FE5CA00A8 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		2A9066C30916B462F96E6C93 /* CoreModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreModels.swift; sourceTree = "<group>"; };
+		E1849DBF8645D7B554A98E8C /* PropertyModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyModels.swift; sourceTree = "<group>"; };
+		D051870728C11B99A8836F79 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		CACEDD44B79DEF8E343791A5 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
+		A510658961328E07EF6E1894 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
+		EA98E30A61C1F8FE58D1B15C /* PropertyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyAPI.swift; sourceTree = "<group>"; };
+		257053A1DBF0324A0EEFDB1C /* TokenStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStore.swift; sourceTree = "<group>"; };
+		40CEFDBCB09138C826232F71 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		528166A039AC37A6A8E6F775 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		83F347EAFE156FA66C9EE1A3 /* AdminFieldsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminFieldsScreen.swift; sourceTree = "<group>"; };
+		8E07E2F27A67A1624887FE12 /* ApprovalsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApprovalsScreen.swift; sourceTree = "<group>"; };
+		45AA7430DA42131759073E10 /* DashboardScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardScreen.swift; sourceTree = "<group>"; };
+		05E7C25ADB3853462526E176 /* DirectoryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectoryScreen.swift; sourceTree = "<group>"; };
+		9821A93CF9682F2FD51A649F /* ImportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportScreen.swift; sourceTree = "<group>"; };
+		03E3EA38EF375B47C5623BBC /* MainShell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainShell.swift; sourceTree = "<group>"; };
+		766AF5C36162922C2847ECB2 /* NewPropertySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPropertySheet.swift; sourceTree = "<group>"; };
+		5E7FB07B7A1C4AA036EF2DA1 /* DetailTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailTabs.swift; sourceTree = "<group>"; };
+		0FF0E4000AD3AD3186CA1633 /* DocumentsHistoryTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsHistoryTabs.swift; sourceTree = "<group>"; };
+		961883A76AD2B2A051692F8D /* PropertyDetailScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailScreen.swift; sourceTree = "<group>"; };
+		AAFC1B48FED1097BC21A3114 /* SubRecordTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubRecordTabs.swift; sourceTree = "<group>"; };
+		233ED6910E1B9DE6436DC070 /* ReportsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsScreen.swift; sourceTree = "<group>"; };
+		47EF14C7B08E1D6615B0B7B6 /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		A715B432E3E43D9EE7181C8C /* PortfolioStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortfolioStore.swift; sourceTree = "<group>"; };
+		D81280D28787DF01FE3A17B0 /* PropertyStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyStore.swift; sourceTree = "<group>"; };
+		F34D7273B82A890DE248DD74 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		142232920FEEA942159774D7 /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
+		0952E703BA1E9B502FD5ADC7 /* ModelDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDecodingTests.swift; sourceTree = "<group>"; };
+		28D9242884EAA0B9B82AB31E /* PropertyDetailDecodingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyDetailDecodingTests.swift; sourceTree = "<group>"; };
+		48DB73E7A277EF79C60C54EE /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		72AD76E40C315FC1028A885B /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		CBD3DB9991E4CB91D9D47097 /* Shared.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Shared.xcconfig; sourceTree = "<group>"; };
+		63FA4FF478EA814F8BBA687D /* Staging.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Staging.xcconfig; sourceTree = "<group>"; };
+		B6CDB6E5D160E013280D3C68 /* London Property Hub.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "London Property Hub.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E02A90D9643568EA39115CFB /* LondonPropertyHubTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LondonPropertyHubTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5B9773D84493B3D713DB9AC0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E51E325E2D7A6ADDC5C9CAB4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ADCF10F76EBF2A74473E9DC4 = {
+			isa = PBXGroup;
+			children = (
+				D35BDCF6803CCB1A9C4483A8 /* Config */,
+				46013ECC6E3BFD73C75AEA61 /* LondonPropertyHub */,
+				E07AE3FD594C8BADF91B0D64 /* LondonPropertyHubTests */,
+				00C45FD35CB0F9C5F764F070 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		00C45FD35CB0F9C5F764F070 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B6CDB6E5D160E013280D3C68 /* London Property Hub.app */,
+				E02A90D9643568EA39115CFB /* LondonPropertyHubTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D35BDCF6803CCB1A9C4483A8 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				CBD3DB9991E4CB91D9D47097 /* Shared.xcconfig */,
+				48DB73E7A277EF79C60C54EE /* Debug.xcconfig */,
+				63FA4FF478EA814F8BBA687D /* Staging.xcconfig */,
+				72AD76E40C315FC1028A885B /* Release.xcconfig */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		5834320CFE53A413067CAEF5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				720B47D8BD56991AE4B4D255 /* LondonPropertyHubApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		160C1ECD6FDE964D55FE172D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				0916E37B7CDDD091C7A49F2D /* CoreComponents.swift */,
+				14493CFE9B9DA7358047ED16 /* FieldEditor.swift */,
+				C5CC69B46F5BC1956DF87C54 /* PropertyCard.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		398F0CFF939996D5D7DA1F07 /* DesignSystem */ = {
+			isa = PBXGroup;
+			children = (
+				3315CB741507839FE5CA00A8 /* Theme.swift */,
+			);
+			path = DesignSystem;
+			sourceTree = "<group>";
+		};
+		847F9015962F3FD8EFBB7EFD /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2A9066C30916B462F96E6C93 /* CoreModels.swift */,
+				E1849DBF8645D7B554A98E8C /* PropertyModels.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		E592C463CF0135DBF40A4AE3 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				D051870728C11B99A8836F79 /* APIClient.swift */,
+				CACEDD44B79DEF8E343791A5 /* APIConfiguration.swift */,
+				A510658961328E07EF6E1894 /* APIError.swift */,
+				EA98E30A61C1F8FE58D1B15C /* PropertyAPI.swift */,
+				257053A1DBF0324A0EEFDB1C /* TokenStore.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		6FE20C9D2CCDFAE45B02C7FB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				528166A039AC37A6A8E6F775 /* Info.plist */,
+				40CEFDBCB09138C826232F71 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		D78BE05912E9209322947BE7 /* PropertyDetail */ = {
+			isa = PBXGroup;
+			children = (
+				5E7FB07B7A1C4AA036EF2DA1 /* DetailTabs.swift */,
+				0FF0E4000AD3AD3186CA1633 /* DocumentsHistoryTabs.swift */,
+				961883A76AD2B2A051692F8D /* PropertyDetailScreen.swift */,
+				AAFC1B48FED1097BC21A3114 /* SubRecordTabs.swift */,
+			);
+			path = PropertyDetail;
+			sourceTree = "<group>";
+		};
+		8867EAF61164C1B921910B18 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				D78BE05912E9209322947BE7 /* PropertyDetail */,
+				83F347EAFE156FA66C9EE1A3 /* AdminFieldsScreen.swift */,
+				8E07E2F27A67A1624887FE12 /* ApprovalsScreen.swift */,
+				45AA7430DA42131759073E10 /* DashboardScreen.swift */,
+				05E7C25ADB3853462526E176 /* DirectoryScreen.swift */,
+				9821A93CF9682F2FD51A649F /* ImportScreen.swift */,
+				03E3EA38EF375B47C5623BBC /* MainShell.swift */,
+				766AF5C36162922C2847ECB2 /* NewPropertySheet.swift */,
+				233ED6910E1B9DE6436DC070 /* ReportsScreen.swift */,
+				47EF14C7B08E1D6615B0B7B6 /* SignInView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		E8F347350CB78704477585A3 /* Stores */ = {
+			isa = PBXGroup;
+			children = (
+				A715B432E3E43D9EE7181C8C /* PortfolioStore.swift */,
+				D81280D28787DF01FE3A17B0 /* PropertyStore.swift */,
+				F34D7273B82A890DE248DD74 /* SessionStore.swift */,
+			);
+			path = Stores;
+			sourceTree = "<group>";
+		};
+		780027FBEBD585D1BDFCA3DB /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				142232920FEEA942159774D7 /* FlowLayout.swift */,
+			);
+			path = Support;
+			sourceTree = "<group>";
+		};
+		46013ECC6E3BFD73C75AEA61 /* LondonPropertyHub */ = {
+			isa = PBXGroup;
+			children = (
+				5834320CFE53A413067CAEF5 /* App */,
+				160C1ECD6FDE964D55FE172D /* Components */,
+				398F0CFF939996D5D7DA1F07 /* DesignSystem */,
+				847F9015962F3FD8EFBB7EFD /* Models */,
+				E592C463CF0135DBF40A4AE3 /* Networking */,
+				6FE20C9D2CCDFAE45B02C7FB /* Resources */,
+				8867EAF61164C1B921910B18 /* Screens */,
+				E8F347350CB78704477585A3 /* Stores */,
+				780027FBEBD585D1BDFCA3DB /* Support */,
+			);
+			path = LondonPropertyHub;
+			sourceTree = "<group>";
+		};
+		E07AE3FD594C8BADF91B0D64 /* LondonPropertyHubTests */ = {
+			isa = PBXGroup;
+			children = (
+				0952E703BA1E9B502FD5ADC7 /* ModelDecodingTests.swift */,
+				28D9242884EAA0B9B82AB31E /* PropertyDetailDecodingTests.swift */,
+			);
+			path = LondonPropertyHubTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		29C7B681C8D62CBAC94D51C0 /* London Property Hub */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "London Property Hub" */;
+			buildPhases = (
+				3BE5C704148406E58FE0AB5F /* Sources */,
+				5B9773D84493B3D713DB9AC0 /* Frameworks */,
+				B681E6ECC54B86FE775FEC3C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "London Property Hub";
+			productName = LondonPropertyHub;
+			productReference = B6CDB6E5D160E013280D3C68 /* London Property Hub.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7EC8F98B7A265120217712DE /* LondonPropertyHubTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D2BE3DDC22BFECC3C59645DA /* Build configuration list for PBXNativeTarget "LondonPropertyHubTests" */;
+			buildPhases = (
+				1A2AAFC871EB5C3BDDDDE160 /* Sources */,
+				E51E325E2D7A6ADDC5C9CAB4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9F27D8D1F7C8645BD8115973 /* PBXTargetDependency */,
+			);
+			name = LondonPropertyHubTests;
+			productName = LondonPropertyHubTests;
+			productReference = E02A90D9643568EA39115CFB /* LondonPropertyHubTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		98F54143AB4E86B28C3AFEE0 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					29C7B681C8D62CBAC94D51C0 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					7EC8F98B7A265120217712DE = {
+						CreatedOnToolsVersion = 16.0;
+						TestTargetID = 29C7B681C8D62CBAC94D51C0;
+					};
+				};
+			};
+			buildConfigurationList = 3D29D9F3A882C4202964FB56 /* Build configuration list for PBXProject "LondonPropertyHub" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ADCF10F76EBF2A74473E9DC4;
+			productRefGroup = 00C45FD35CB0F9C5F764F070 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				29C7B681C8D62CBAC94D51C0 /* London Property Hub */,
+				7EC8F98B7A265120217712DE /* LondonPropertyHubTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B681E6ECC54B86FE775FEC3C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87507045EAD80BDF2B7F12A7 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3BE5C704148406E58FE0AB5F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7C0065E4B0104ED9A993C6F4 /* LondonPropertyHubApp.swift in Sources */,
+				37D8E38E0011381CD8B31550 /* CoreComponents.swift in Sources */,
+				9B0CD64228FB42E0A97EBF08 /* FieldEditor.swift in Sources */,
+				6CF45C94762C85649E7700F1 /* PropertyCard.swift in Sources */,
+				68865EEE797DD80D224D8D63 /* Theme.swift in Sources */,
+				A0ED01B0AB560DA8B529DC03 /* CoreModels.swift in Sources */,
+				CF22425B7A60AF828FEE9FB7 /* PropertyModels.swift in Sources */,
+				C747645B9EF071F10427C099 /* APIClient.swift in Sources */,
+				37A8E911032485ABE4171E3F /* APIConfiguration.swift in Sources */,
+				864FB273CD9909EC3116FB90 /* APIError.swift in Sources */,
+				DF689DA9F4950A8333369F80 /* PropertyAPI.swift in Sources */,
+				3F1CD13B0E3CE2187C744A0E /* TokenStore.swift in Sources */,
+				6713234F6A93AA71CD9C1442 /* AdminFieldsScreen.swift in Sources */,
+				AD26EC77111F2003DBEC9F6D /* ApprovalsScreen.swift in Sources */,
+				2A70CF0E529722A6AD9F4A92 /* DashboardScreen.swift in Sources */,
+				303DA52896C0CA85F71F6BBD /* DirectoryScreen.swift in Sources */,
+				886DDE23FBF764B7341FADF1 /* ImportScreen.swift in Sources */,
+				2C5DAC730511BCBD18D02595 /* MainShell.swift in Sources */,
+				94786EDE8AD394D9FDAB45B5 /* NewPropertySheet.swift in Sources */,
+				1DAAE4278897A2C5B78796AE /* DetailTabs.swift in Sources */,
+				74316859BFAF1B8A0302CB9A /* DocumentsHistoryTabs.swift in Sources */,
+				84C2C6B5362D1D5936CD3DA0 /* PropertyDetailScreen.swift in Sources */,
+				07C89E9CD069A81C6E8197BE /* SubRecordTabs.swift in Sources */,
+				6A7A8F13761EAA53D74B5635 /* ReportsScreen.swift in Sources */,
+				DDBBD49AE9AD31D0D5E8A857 /* SignInView.swift in Sources */,
+				B11018D71345A3F79919D34B /* PortfolioStore.swift in Sources */,
+				0EB4103FB14FB11BFAAD6D20 /* PropertyStore.swift in Sources */,
+				9ABC288DBBB0F4D969B61B01 /* SessionStore.swift in Sources */,
+				1475DC1DBF956C70EAEB06DC /* FlowLayout.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A2AAFC871EB5C3BDDDDE160 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA6B17566DB9C601890FD327 /* ModelDecodingTests.swift in Sources */,
+				479CFD0DD4ABAF0CC90BC35E /* PropertyDetailDecodingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9F27D8D1F7C8645BD8115973 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 29C7B681C8D62CBAC94D51C0 /* London Property Hub */;
+			targetProxy = 2B4D2F8BFE54E9562F422278 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		855D4B0C75ECD556474FD8F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48DB73E7A277EF79C60C54EE /* Debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				VALIDATE_PRODUCT = NO;
+			};
+			name = Debug;
+		};
+		27D4DEA74C25CB7C8410C23E /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63FA4FF478EA814F8BBA687D /* Staging.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Staging;
+		};
+		4E74312DBBD620AE1CB5D771 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72AD76E40C315FC1028A885B /* Release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		967DE5DAE8F9C3546488D3FD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48DB73E7A277EF79C60C54EE /* Debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LondonPropertyHub/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		D8DD266A6C54EF640200424A /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63FA4FF478EA814F8BBA687D /* Staging.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LondonPropertyHub/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Staging;
+		};
+		70A5F3AAC43D0790B57ED51A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72AD76E40C315FC1028A885B /* Release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = LondonPropertyHub/Resources/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		7A6254D73776E919A898BF59 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48DB73E7A277EF79C60C54EE /* Debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.londonhotelgroup.propertyhub.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/London Property Hub.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/London Property Hub";
+			};
+			name = Debug;
+		};
+		95488EA8E0D8F1CC613A60B3 /* Staging */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 63FA4FF478EA814F8BBA687D /* Staging.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.londonhotelgroup.propertyhub.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/London Property Hub.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/London Property Hub";
+			};
+			name = Staging;
+		};
+		7EB3E2C335E8159349623C2B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 72AD76E40C315FC1028A885B /* Release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.londonhotelgroup.propertyhub.tests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/London Property Hub.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/London Property Hub";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3D29D9F3A882C4202964FB56 /* Build configuration list for PBXProject "LondonPropertyHub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				855D4B0C75ECD556474FD8F5 /* Debug */,
+				27D4DEA74C25CB7C8410C23E /* Staging */,
+				4E74312DBBD620AE1CB5D771 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		23746EFE221170E24101FE05 /* Build configuration list for PBXNativeTarget "London Property Hub" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				967DE5DAE8F9C3546488D3FD /* Debug */,
+				D8DD266A6C54EF640200424A /* Staging */,
+				70A5F3AAC43D0790B57ED51A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D2BE3DDC22BFECC3C59645DA /* Build configuration list for PBXNativeTarget "LondonPropertyHubTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7A6254D73776E919A898BF59 /* Debug */,
+				95488EA8E0D8F1CC613A60B3 /* Staging */,
+				7EB3E2C335E8159349623C2B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0 /* Project object */;
+}

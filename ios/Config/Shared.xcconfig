@@ -1,0 +1,26 @@
+// Settings shared by every build configuration.
+//
+// Change PRODUCT_BUNDLE_IDENTIFIER and DEVELOPMENT_TEAM to your own before the
+// first archive — those two are the only values App Store Connect insists are
+// yours rather than a placeholder.
+
+PRODUCT_NAME = London Property Hub
+
+// Pinned so the Swift module name stays constant even where PRODUCT_NAME is
+// overridden per configuration — otherwise `@testable import` breaks.
+PRODUCT_MODULE_NAME = LondonPropertyHub
+PRODUCT_BUNDLE_IDENTIFIER = uk.co.londonhotelgroup.propertyhub
+DEVELOPMENT_TEAM =
+
+MARKETING_VERSION = 1.0.0
+CURRENT_PROJECT_VERSION = 1
+
+IPHONEOS_DEPLOYMENT_TARGET = 17.0
+TARGETED_DEVICE_FAMILY = 1,2
+SWIFT_VERSION = 5.0
+
+SUPPORTED_PLATFORMS = iphoneos iphonesimulator
+SUPPORTS_MACCATALYST = NO
+CODE_SIGN_STYLE = Automatic
+ENABLE_USER_SCRIPT_SANDBOXING = YES
+SWIFT_STRICT_CONCURRENCY = complete

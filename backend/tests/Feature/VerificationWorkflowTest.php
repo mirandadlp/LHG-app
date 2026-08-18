@@ -132,6 +132,62 @@ class VerificationWorkflowTest extends TestCase
         ])->assertOk()->assertJsonPath('verification', Property::STATUS_IN_PROGRESS);
     }
 
+    /**
+     * The comment is optional, so the key is simply absent from the request
+     * when a reviewer approves without typing anything. That path is the one
+     * a busy administrator takes most often.
+     */
+    public function test_approving_without_a_comment_works(): void
+    {
+        $newham = Property::where('site_name', 'Newham Riverside House')->firstOrFail();
+
+        $this->actingAsUser($this->admin());
+
+        // No body at all.
+        $this->postJson("/api/properties/{$newham->id}/approve")
+            ->assertOk()
+            ->assertJsonPath('verification', Property::STATUS_VERIFIED);
+
+        $this->assertDatabaseHas('change_logs', [
+            'property_id' => $newham->id,
+            'field' => 'Verification',
+            'new_value' => Property::STATUS_VERIFIED,
+            'reason' => 'Approved by corporate',
+        ]);
+    }
+
+    public function test_requesting_changes_without_a_comment_works(): void
+    {
+        $newham = Property::where('site_name', 'Newham Riverside House')->firstOrFail();
+
+        $this->actingAsUser($this->admin());
+
+        $this->postJson("/api/properties/{$newham->id}/request-changes")
+            ->assertOk()
+            ->assertJsonPath('verification', Property::STATUS_CHANGES_REQUESTED);
+
+        $this->assertDatabaseHas('change_logs', [
+            'property_id' => $newham->id,
+            'reason' => 'Changes requested by corporate',
+        ]);
+    }
+
+    /** An empty comment box means the same thing as no comment at all. */
+    public function test_a_blank_comment_falls_back_to_the_default_wording(): void
+    {
+        $newham = Property::where('site_name', 'Newham Riverside House')->firstOrFail();
+
+        $this->actingAsUser($this->admin());
+
+        $this->postJson("/api/properties/{$newham->id}/approve", ['comment' => '   '])
+            ->assertOk();
+
+        $this->assertDatabaseHas('change_logs', [
+            'property_id' => $newham->id,
+            'reason' => 'Approved by corporate',
+        ]);
+    }
+
     public function test_a_property_cannot_be_submitted_twice(): void
     {
         $newham = Property::where('site_name', 'Newham Riverside House')->firstOrFail();

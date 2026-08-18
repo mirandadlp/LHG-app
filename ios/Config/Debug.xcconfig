@@ -1,0 +1,11 @@
+#include "Shared.xcconfig"
+
+// Points at a Laravel dev server on your machine.
+// The simulator reaches your Mac on localhost; a physical device needs your
+// Mac's LAN address instead, e.g. http://192.168.1.20:8000
+API_BASE_URL = http:/$()/localhost:8000
+API_ENVIRONMENT_LABEL = Local
+
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG
+SWIFT_OPTIMIZATION_LEVEL = -Onone
+ONLY_ACTIVE_ARCH = YES

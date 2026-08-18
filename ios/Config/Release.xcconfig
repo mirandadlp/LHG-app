@@ -1,0 +1,10 @@
+#include "Shared.xcconfig"
+
+// Production. This is the URL App Review will hit, so it must be reachable
+// from the public internet over HTTPS.
+API_BASE_URL = https:/$()/api.londonhotelgroup.co.uk
+API_ENVIRONMENT_LABEL = Production
+
+SWIFT_OPTIMIZATION_LEVEL = -O
+SWIFT_COMPILATION_MODE = wholemodule
+VALIDATE_PRODUCT = YES

@@ -1,0 +1,11 @@
+#include "Shared.xcconfig"
+
+// Point this at your staging Laravel install before distributing a TestFlight
+// build to people outside the team.
+API_BASE_URL = https:/$()/staging-api.londonhotelgroup.co.uk
+API_ENVIRONMENT_LABEL = Staging
+
+PRODUCT_BUNDLE_IDENTIFIER = uk.co.londonhotelgroup.propertyhub.staging
+PRODUCT_NAME = Property Hub (Staging)
+
+SWIFT_OPTIMIZATION_LEVEL = -O

@@ -1,0 +1,12 @@
+# Fill these in once. Everything else in the release flow reads from here.
+#
+#   app_identifier  — must match PRODUCT_BUNDLE_IDENTIFIER in Config/Shared.xcconfig
+#   apple_id        — the Apple ID that owns the App Store Connect record
+#   itc_team_id     — App Store Connect team id (fastlane will prompt and cache it)
+#   team_id         — Apple Developer Portal team id, same as DEVELOPMENT_TEAM
+
+app_identifier("uk.co.londonhotelgroup.propertyhub")
+apple_id(ENV["APPLE_ID"] || "you@londonhotelgroup.co.uk")
+
+itc_team_id(ENV["ITC_TEAM_ID"])
+team_id(ENV["DEVELOPER_TEAM_ID"])
