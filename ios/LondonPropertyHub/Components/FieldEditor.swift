@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 /// Renders and edits any field in the registry, including custom fields the
 /// business added after this build shipped. The field's `type` decides the

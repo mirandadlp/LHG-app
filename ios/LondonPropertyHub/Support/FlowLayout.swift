@@ -81,3 +81,24 @@ struct FlowLayout: Layout {
         return rows
     }
 }
+
+/// Pairs a record with its 1-based display position.
+///
+/// `Array(collection.enumerated())` looks like the obvious way to get an index
+/// alongside each element, but its elements are tuples, and Swift key paths
+/// cannot refer to tuple elements — so `ForEach(…, id: \.element.id)` does not
+/// compile. This carries the same information in a type that has real
+/// properties to point at.
+struct Numbered<Value: Identifiable>: Identifiable {
+    let number: Int
+    let value: Value
+
+    var id: Value.ID { value.id }
+}
+
+extension Collection where Element: Identifiable {
+    /// Elements paired with their 1-based position, safe to use as `ForEach` data.
+    func numbered() -> [Numbered<Element>] {
+        enumerated().map { Numbered(number: $0.offset + 1, value: $0.element) }
+    }
+}

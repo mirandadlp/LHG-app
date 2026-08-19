@@ -1,6 +1,26 @@
 import Charts
 import SwiftUI
 
+/// One column of the units-by-type strip. A named type rather than a tuple,
+/// because `ForEach` needs a key path for identity and key paths cannot refer
+/// to tuple elements.
+private struct UnitBreakdown: Identifiable {
+    let label: String
+    let value: Int
+
+    var id: String { label }
+
+    static func all(from totals: DashboardPayload.Totals) -> [UnitBreakdown] {
+        [
+            UnitBreakdown(label: "Singles", value: totals.singles),
+            UnitBreakdown(label: "Doubles", value: totals.doubles),
+            UnitBreakdown(label: "Triples", value: totals.triples),
+            UnitBreakdown(label: "Flats", value: totals.flats),
+            UnitBreakdown(label: "Houses", value: totals.houses),
+        ]
+    }
+}
+
 struct DashboardScreen: View {
     @Bindable var portfolio: PortfolioStore
     let onOpenFilters: () -> Void
@@ -132,22 +152,15 @@ struct DashboardScreen: View {
             Divider().overlay(.white.opacity(0.15)).padding(.vertical, 16)
 
             HStack(alignment: .top, spacing: 0) {
-                ForEach(
-                    [
-                        ("Singles", totals.singles), ("Doubles", totals.doubles),
-                        ("Triples", totals.triples), ("Flats", totals.flats),
-                        ("Houses", totals.houses),
-                    ],
-                    id: \.0
-                ) { label, value in
+                ForEach(UnitBreakdown.all(from: totals)) { entry in
                     VStack(spacing: 3) {
-                        Text(value.formattedCount)
+                        Text(entry.value.formattedCount)
                             .font(Theme.display(19))
                             .foregroundStyle(.white)
                             .minimumScaleFactor(0.5)
                             .lineLimit(1)
 
-                        Text(label.uppercased())
+                        Text(entry.label.uppercased())
                             .font(Theme.body(9, weight: .bold))
                             .kerning(0.5)
                             .foregroundStyle(.white.opacity(0.5))

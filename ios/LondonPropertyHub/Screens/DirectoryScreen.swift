@@ -7,6 +7,10 @@ struct DirectoryScreen: View {
     @Environment(SessionStore.self) private var session
     @State private var showsNewProperty = false
 
+    private func clearFilters() {
+        portfolio.filters.clear()
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 18) {
@@ -43,7 +47,7 @@ struct DirectoryScreen: View {
                                     ? "Nothing matches these filters. Reset the scope to see the whole company."
                                     : "There are no properties in your portfolio yet.",
                                 actionTitle: portfolio.filters.isActive ? "Clear filters" : nil,
-                                action: portfolio.filters.isActive ? { portfolio.filters.clear() } : nil
+                                action: portfolio.filters.isActive ? clearFilters : nil
                             )
                         }
                     } else {

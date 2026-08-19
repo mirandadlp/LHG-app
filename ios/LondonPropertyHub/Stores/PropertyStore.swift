@@ -23,7 +23,9 @@ final class PropertyStore {
     private let api: PropertyAPI
     private var pendingSaves: [String: Task<Void, Never>] = [:]
 
-    init(propertyID: Int, api: PropertyAPI = PropertyAPI()) {
+    /// Nonisolated so the detail screen can seed it from `State(initialValue:)`
+    /// inside its own nonisolated init.
+    nonisolated init(propertyID: Int, api: PropertyAPI = PropertyAPI()) {
         self.propertyID = propertyID
         self.api = api
     }

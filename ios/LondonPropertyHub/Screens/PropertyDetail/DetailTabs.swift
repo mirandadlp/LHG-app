@@ -1,6 +1,15 @@
 import Charts
 import SwiftUI
 
+/// A bar in the accommodation-mix chart. Named rather than a tuple so `Chart`
+/// can identify each mark by key path.
+struct AccommodationBar: Identifiable {
+    let label: String
+    let count: Int
+
+    var id: String { label }
+}
+
 // MARK: - Overview
 
 struct OverviewTab: View {
@@ -31,7 +40,7 @@ struct OverviewTab: View {
                     VStack(alignment: .leading, spacing: 12) {
                         Text("Accommodation Mix").font(Theme.display(15))
 
-                        Chart(accommodationMix, id: \.label) { entry in
+                        Chart(accommodationMix) { entry in
                             BarMark(
                                 x: .value("Count", entry.count),
                                 y: .value("Type", entry.label)
@@ -131,10 +140,10 @@ struct OverviewTab: View {
         }
     }
 
-    private var accommodationMix: [(label: String, count: Int)] {
+    private var accommodationMix: [AccommodationBar] {
         session.accommodationTypes.compactMap { type in
             let count = detail.count(type.key)
-            return count > 0 ? (type.label, count) : nil
+            return count > 0 ? AccommodationBar(label: type.label, count: count) : nil
         }
     }
 

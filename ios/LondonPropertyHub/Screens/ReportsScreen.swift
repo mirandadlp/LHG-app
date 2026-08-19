@@ -152,10 +152,10 @@ struct ReportsScreen: View {
                         }
                         .background(Theme.navy)
 
-                        ForEach(Array(report.rows.enumerated()), id: \.offset) { index, row in
+                        ForEach(report.rows.indices, id: \.self) { index in
                             HStack(spacing: 0) {
                                 ForEach(report.columns, id: \.self) { column in
-                                    Text(row[column]?.display ?? "")
+                                    Text(report.rows[index][column]?.display ?? "")
                                         .font(Theme.body(11))
                                         .foregroundStyle(Theme.subtleInk)
                                         .lineLimit(1)

@@ -23,7 +23,10 @@ final class PortfolioStore {
     private let api: PropertyAPI
     private var reloadTask: Task<Void, Never>?
 
-    init(api: PropertyAPI = PropertyAPI()) {
+    /// Nonisolated so SwiftUI can build one as a `@State` default value,
+    /// which is evaluated outside the main actor. Assigning stored properties
+    /// during initialisation is allowed from a nonisolated init.
+    nonisolated init(api: PropertyAPI = PropertyAPI()) {
         self.api = api
     }
 

@@ -24,17 +24,16 @@ final class SessionStore {
     var toast: Toast?
 
     private let api: PropertyAPI
-    private var expiryObserver: NSObjectProtocol?
 
-    init(api: PropertyAPI = PropertyAPI()) {
+    /// `deinit` is nonisolated and so cannot touch main-actor state. Parking the
+    /// observer token in its own small object means cleanup happens when that
+    /// object is released, and this class needs no deinit at all.
+    private let expiryObserver = NotificationObserverToken()
+
+    /// Nonisolated so the app can build one as a `@State` default value.
+    nonisolated init(api: PropertyAPI = PropertyAPI()) {
         self.api = api
         observeSessionExpiry()
-    }
-
-    deinit {
-        if let expiryObserver {
-            NotificationCenter.default.removeObserver(expiryObserver)
-        }
     }
 
     // MARK: - Lifecycle
@@ -162,8 +161,10 @@ final class SessionStore {
 
     // MARK: - Private
 
-    private func observeSessionExpiry() {
-        expiryObserver = NotificationCenter.default.addObserver(
+    /// Nonisolated because `init` is. The block itself touches no isolated
+    /// state — it hops to the main actor before reading anything.
+    private nonisolated func observeSessionExpiry() {
+        expiryObserver.token = NotificationCenter.default.addObserver(
             forName: APIClient.sessionExpired,
             object: nil,
             queue: .main
@@ -176,6 +177,24 @@ final class SessionStore {
                 self.state = .signedOut
                 self.signInError = "Your session expired. Please sign in again."
             }
+        }
+    }
+}
+
+// MARK: - Observer token
+
+/// Owns a NotificationCenter registration and removes it when released.
+///
+/// NotificationCenter's block-based observers are not removed automatically, and
+/// a `@MainActor` class cannot unregister from its own `deinit` under strict
+/// concurrency. Holding the token here keeps the lifetime correct without
+/// reaching for `nonisolated(unsafe)`.
+final class NotificationObserverToken: @unchecked Sendable {
+    var token: NSObjectProtocol?
+
+    deinit {
+        if let token {
+            NotificationCenter.default.removeObserver(token)
         }
     }
 }

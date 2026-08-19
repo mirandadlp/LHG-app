@@ -11,6 +11,10 @@ struct ElevatorsTab: View {
 
     private var isReadOnly: Bool { !detail.permissions.canEdit }
 
+    private func addElevator() {
+        Task { await store.addElevator() }
+    }
+
     var body: some View {
         VStack(spacing: 16) {
             HubCard {
@@ -28,9 +32,7 @@ struct ElevatorsTab: View {
                     Spacer(minLength: 8)
 
                     if !isReadOnly {
-                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true) {
-                            Task { await store.addElevator() }
-                        }
+                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true, action: addElevator)
                     }
                 }
             }
@@ -42,18 +44,18 @@ struct ElevatorsTab: View {
                         title: "No elevators recorded",
                         message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
                         actionTitle: isReadOnly ? nil : "Add an elevator",
-                        action: isReadOnly ? nil : { Task { await store.addElevator() } }
+                        action: isReadOnly ? nil : addElevator
                     )
                 }
             } else {
-                ForEach(Array(detail.elevators.enumerated()), id: \.element.id) { index, elevator in
+                ForEach(detail.elevators.numbered()) { entry in
                     ElevatorCard(
-                        elevator: elevator,
-                        index: index,
+                        elevator: entry.value,
+                        number: entry.number,
                         isReadOnly: isReadOnly,
                         elevatorTypes: session.options("elevatorTypes"),
                         onChange: { store.update($0) },
-                        onDelete: { pendingDeletion = elevator }
+                        onDelete: { pendingDeletion = entry.value }
                     )
                 }
             }
@@ -79,7 +81,7 @@ struct ElevatorsTab: View {
 
 struct ElevatorCard: View {
     let elevator: Elevator
-    let index: Int
+    let number: Int
     let isReadOnly: Bool
     let elevatorTypes: [String]
     let onChange: (Elevator) -> Void
@@ -89,7 +91,7 @@ struct ElevatorCard: View {
         HubCard {
             VStack(alignment: .leading, spacing: 16) {
                 SubRecordHeader(
-                    index: index,
+                    number: number,
                     title: "Elevator",
                     name: elevator.name,
                     isReadOnly: isReadOnly,
@@ -186,6 +188,10 @@ struct StaircasesTab: View {
 
     private var isReadOnly: Bool { !detail.permissions.canEdit }
 
+    private func addStaircase() {
+        Task { await store.addStaircase() }
+    }
+
     var body: some View {
         VStack(spacing: 16) {
             HubCard {
@@ -203,9 +209,7 @@ struct StaircasesTab: View {
                     Spacer(minLength: 8)
 
                     if !isReadOnly {
-                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true) {
-                            Task { await store.addStaircase() }
-                        }
+                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true, action: addStaircase)
                     }
                 }
             }
@@ -217,17 +221,17 @@ struct StaircasesTab: View {
                         title: "No staircases recorded",
                         message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
                         actionTitle: isReadOnly ? nil : "Add a staircase",
-                        action: isReadOnly ? nil : { Task { await store.addStaircase() } }
+                        action: isReadOnly ? nil : addStaircase
                     )
                 }
             } else {
-                ForEach(Array(detail.staircases.enumerated()), id: \.element.id) { index, staircase in
+                ForEach(detail.staircases.numbered()) { entry in
                     StaircaseCard(
-                        staircase: staircase,
-                        index: index,
+                        staircase: entry.value,
+                        number: entry.number,
                         isReadOnly: isReadOnly,
                         onChange: { store.update($0) },
-                        onDelete: { pendingDeletion = staircase }
+                        onDelete: { pendingDeletion = entry.value }
                     )
                 }
             }
@@ -253,7 +257,7 @@ struct StaircasesTab: View {
 
 struct StaircaseCard: View {
     let staircase: Staircase
-    let index: Int
+    let number: Int
     let isReadOnly: Bool
     let onChange: (Staircase) -> Void
     let onDelete: () -> Void
@@ -262,7 +266,7 @@ struct StaircaseCard: View {
         HubCard {
             VStack(alignment: .leading, spacing: 16) {
                 SubRecordHeader(
-                    index: index,
+                    number: number,
                     title: "Staircase",
                     name: staircase.name,
                     isReadOnly: isReadOnly,
@@ -331,7 +335,7 @@ struct StaircaseCard: View {
 // MARK: - Shared sub-record pieces
 
 struct SubRecordHeader: View {
-    let index: Int
+    let number: Int
     let title: String
     let name: String
     let isReadOnly: Bool
@@ -339,7 +343,7 @@ struct SubRecordHeader: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Text("\(index + 1)")
+            Text("\(number)")
                 .font(Theme.body(12, weight: .heavy))
                 .foregroundStyle(Theme.navyDark)
                 .frame(width: 34, height: 34)

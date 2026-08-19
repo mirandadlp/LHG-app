@@ -31,16 +31,25 @@ enum APIConfiguration {
 
     static var isProduction: Bool { environmentLabel.lowercased() == "production" }
 
-    /// Sent as the token name so a user can tell their devices apart.
+    /// Sent as the token name so a user can tell their devices apart in their
+    /// account's device list.
+    ///
+    /// `UIDevice.current.name` would be the obvious source, but it is
+    /// main-actor isolated — unreachable from here — and has been redacted to a
+    /// generic string since iOS 16 anyway. The hardware identifier from `uname`
+    /// is nonisolated and more specific.
     static var deviceName: String {
-        #if os(iOS)
-        return UIDevice.current.name
+        var info = utsname()
+        uname(&info)
+
+        let identifier = withUnsafePointer(to: &info.machine) { pointer in
+            pointer.withMemoryRebound(to: CChar.self, capacity: 1) { String(cString: $0) }
+        }
+
+        #if targetEnvironment(simulator)
+        return "Simulator (\(identifier))"
         #else
-        return "iOS"
+        return identifier.isEmpty ? "iOS device" : identifier
         #endif
     }
 }
-
-#if canImport(UIKit)
-import UIKit
-#endif
