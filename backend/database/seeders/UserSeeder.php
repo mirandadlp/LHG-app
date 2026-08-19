@@ -71,15 +71,17 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         foreach (self::ACCOUNTS as $account) {
-            User::updateOrCreate(
-                ['email' => $account['email']],
-                [
-                    ...$account,
-                    'password' => Hash::make('password'),
-                    'email_verified_at' => now(),
-                    'is_active' => true,
-                ],
-            );
+            $user = User::firstOrNew(['email' => $account['email']]);
+
+            $user->fill([
+                ...$account,
+                'password' => Hash::make('password'),
+                'is_active' => true,
+            ]);
+
+            // Not fillable, so it has to be set directly.
+            $user->email_verified_at = now();
+            $user->save();
         }
     }
 }

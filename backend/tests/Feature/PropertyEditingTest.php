@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\ChangeFlag;
 use App\Models\ChangeLog;
 use App\Models\Property;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -16,10 +15,6 @@ use Tests\TestCase;
 class PropertyEditingTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
-
-    protected $seeder = DatabaseSeeder::class;
 
     public function test_every_edit_writes_an_audit_row(): void
     {

@@ -2,17 +2,12 @@
 
 namespace Tests\Feature;
 
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ReportExportTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
-
-    protected $seeder = DatabaseSeeder::class;
 
     public function test_the_report_returns_rows_and_a_company_total(): void
     {

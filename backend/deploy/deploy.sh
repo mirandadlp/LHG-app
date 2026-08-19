@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 #
-# Zero-thought deploy for a Laravel Forge site or a plain VPS.
+# Deploy script for a plain VPS.
 #
-# Forge: paste this into the site's Deploy Script and it runs on every push.
-# Plain VPS: run it from the site root as the deploy user.
+# Run it from anywhere as the deploy user; it locates the Laravel root itself:
+#
+#     backend/deploy/deploy.sh
 #
 # It is safe to re-run — every step is idempotent.
+#
+# On Laravel Forge use forge-deploy-script.sh instead. Forge takes pasted text
+# rather than a file, and performs its own `git pull`, so the two would fight
+# over the working tree.
 
 set -euo pipefail
 

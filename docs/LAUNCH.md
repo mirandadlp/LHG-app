@@ -59,6 +59,8 @@ reachable from the public internet — App Review will hit it from Apple's
 network, and the app ships with no App Transport Security exception for it.
 
 Deploy the backend first: see [`backend/deploy/README.md`](../backend/deploy/README.md).
+Note that Forge needs its Web Directory set to `/backend/public` — Laravel is
+not at the repository root in this monorepo.
 
 ---
 
@@ -92,12 +94,20 @@ The scheme is already shared, so this works from a fresh clone.
 
 ## Part 3 — What App Review will ask for
 
-**A demo account.** Review needs to get past the sign-in screen. In App Store
-Connect → your app → App Review Information, provide:
+**A demo account.** Review needs to get past the sign-in screen. Create one on
+your production API:
 
-- a real account on your production API (create one; do not use a seeded demo
-  password)
-- a note: *"Corporate Administrator role — full access to all screens."*
+```bash
+php artisan hub:create-admin
+```
+
+Then in App Store Connect → your app → App Review Information, provide those
+credentials and a note: *"Internal staff tool. Accounts are created by a
+corporate administrator, so there is no public sign-up. The credentials above
+have the Corporate Administrator role and full access to every screen."*
+
+Do not hand over a seeded demo account — they all share the password
+`password`. See `backend/deploy/README.md`.
 
 **Privacy details.** App Store Connect → App Privacy. The honest answers for
 this app:

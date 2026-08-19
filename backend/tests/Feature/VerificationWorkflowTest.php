@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\ChangeLog;
 use App\Models\Property;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -15,10 +14,6 @@ use Tests\TestCase;
 class VerificationWorkflowTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
-
-    protected $seeder = DatabaseSeeder::class;
 
     public function test_submitting_is_blocked_while_required_fields_are_missing(): void
     {

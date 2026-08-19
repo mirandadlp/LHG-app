@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Property;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -12,10 +11,6 @@ use Tests\TestCase;
 class DashboardAndDocumentsTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
-
-    protected $seeder = DatabaseSeeder::class;
 
     public function test_the_dashboard_totals_match_the_seeded_portfolio(): void
     {

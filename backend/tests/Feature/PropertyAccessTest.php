@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\Property;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,10 +13,6 @@ use Tests\TestCase;
 class PropertyAccessTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
-
-    protected $seeder = DatabaseSeeder::class;
 
     public function test_an_administrator_sees_the_whole_portfolio(): void
     {

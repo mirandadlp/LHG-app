@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\FieldDefinition;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -14,10 +13,6 @@ use Tests\TestCase;
 class CustomFieldTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
-
-    protected $seeder = DatabaseSeeder::class;
 
     public function test_the_registry_lists_base_and_custom_fields(): void
     {

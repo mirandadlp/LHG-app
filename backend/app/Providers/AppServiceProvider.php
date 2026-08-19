@@ -32,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
         // Catch N+1 queries and mass-assignment mistakes during development
         // rather than in production.
         Model::preventLazyLoading($this->app->isLocal());
-        Model::preventSilentlyDiscardingAttributes($this->app->isLocal());
+
+        // Also in testing: an attribute quietly dropped for not being fillable
+        // is invisible until something downstream reads a null it did not
+        // expect, and the tests are where that should surface.
+        Model::preventSilentlyDiscardingAttributes(
+            $this->app->isLocal() || $this->app->runningUnitTests()
+        );
     }
 }

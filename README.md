@@ -92,7 +92,12 @@ The seeder creates seven properties and eight accounts, all with the password
 | `jane.smith@londonhotelgroup.co.uk` | Property Manager (Croydon Housing) |
 | `meher.n@londonhotelgroup.co.uk` | Leadership (read-only) |
 
-Change or remove these before the app touches real data.
+Change or remove these before the app touches real data:
+
+```bash
+php artisan hub:create-admin              # a real account, password prompted
+php artisan hub:disable-demo-accounts     # closes the seeded ones
+```
 
 ### Doing it by hand
 

@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\Property;
 use App\Services\SpreadsheetImporter;
-use Database\Seeders\DatabaseSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
@@ -12,10 +11,6 @@ use Tests\TestCase;
 class ImportTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected $seed = true;
-
-    protected $seeder = DatabaseSeeder::class;
 
     private function sampleUpload(): UploadedFile
     {
