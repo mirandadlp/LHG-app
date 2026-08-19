@@ -11,6 +11,50 @@ struct DirectoryScreen: View {
         portfolio.filters.clear()
     }
 
+    /// Split out of `body` so each branch type-checks on its own. Long view
+    /// bodies with several branches are where the compiler starts to struggle.
+    @ViewBuilder
+    private var listContent: some View {
+        if portfolio.isLoading, portfolio.properties.isEmpty {
+            ProgressView().tint(Theme.navy).padding(.vertical, 50)
+        } else if let error = portfolio.loadError, portfolio.properties.isEmpty {
+            InlineErrorView(message: error) {
+                Task { await portfolio.reload() }
+            }
+        } else if portfolio.properties.isEmpty {
+            HubCard { emptyState }
+        } else {
+            LazyVStack(spacing: 14) {
+                ForEach(portfolio.properties) { property in
+                    NavigationLink(value: PropertyRoute(property)) {
+                        PropertyCard(property: property)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+        }
+    }
+
+    private var emptyState: EmptyStateView {
+        // Annotated locals rather than ternaries inline in the argument list:
+        // a bare `nil` branch beside a value leaves the compiler inferring the
+        // optional's type from context it does not have yet.
+        let isFiltered = portfolio.filters.isActive
+        let message: String = isFiltered
+            ? "Nothing matches these filters. Reset the scope to see the whole company."
+            : "There are no properties in your portfolio yet."
+        let actionTitle: String? = isFiltered ? "Clear filters" : nil
+        let action: (() -> Void)? = isFiltered ? clearFilters : nil
+
+        return EmptyStateView(
+            icon: "building.2",
+            title: "No properties match",
+            message: message,
+            actionTitle: actionTitle,
+            action: action
+        )
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 18) {
@@ -32,34 +76,7 @@ struct DirectoryScreen: View {
                         }
                     }
 
-                    if portfolio.isLoading, portfolio.properties.isEmpty {
-                        ProgressView().tint(Theme.navy).padding(.vertical, 50)
-                    } else if let error = portfolio.loadError, portfolio.properties.isEmpty {
-                        InlineErrorView(message: error) {
-                            Task { await portfolio.reload() }
-                        }
-                    } else if portfolio.properties.isEmpty {
-                        HubCard {
-                            EmptyStateView(
-                                icon: "building.2",
-                                title: "No properties match",
-                                message: portfolio.filters.isActive
-                                    ? "Nothing matches these filters. Reset the scope to see the whole company."
-                                    : "There are no properties in your portfolio yet.",
-                                actionTitle: portfolio.filters.isActive ? "Clear filters" : nil,
-                                action: portfolio.filters.isActive ? clearFilters : nil
-                            )
-                        }
-                    } else {
-                        LazyVStack(spacing: 14) {
-                            ForEach(portfolio.properties) { property in
-                                NavigationLink(value: property) {
-                                    PropertyCard(property: property)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                        }
-                    }
+                    listContent
                 }
                 .padding(.horizontal, 20)
             }
@@ -114,7 +131,7 @@ struct ExploreScreen: View {
                     } else {
                         LazyVStack(spacing: 14) {
                             ForEach(portfolio.properties) { property in
-                                NavigationLink(value: property) {
+                                NavigationLink(value: PropertyRoute(property)) {
                                     PropertyCard(property: property, showsRing: true)
                                 }
                                 .buttonStyle(.plain)

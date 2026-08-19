@@ -15,6 +15,19 @@ struct ElevatorsTab: View {
         Task { await store.addElevator() }
     }
 
+    private var emptyState: EmptyStateView {
+        let actionTitle: String? = isReadOnly ? nil : "Add an elevator"
+        let action: (() -> Void)? = isReadOnly ? nil : addElevator
+
+        return EmptyStateView(
+            icon: "arrow.up.arrow.down",
+            title: "No elevators recorded",
+            message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
+            actionTitle: actionTitle,
+            action: action
+        )
+    }
+
     var body: some View {
         VStack(spacing: 16) {
             HubCard {
@@ -38,15 +51,7 @@ struct ElevatorsTab: View {
             }
 
             if detail.elevators.isEmpty {
-                HubCard {
-                    EmptyStateView(
-                        icon: "arrow.up.arrow.down",
-                        title: "No elevators recorded",
-                        message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
-                        actionTitle: isReadOnly ? nil : "Add an elevator",
-                        action: isReadOnly ? nil : addElevator
-                    )
-                }
+                HubCard { emptyState }
             } else {
                 ForEach(detail.elevators.numbered()) { entry in
                     ElevatorCard(
@@ -192,6 +197,19 @@ struct StaircasesTab: View {
         Task { await store.addStaircase() }
     }
 
+    private var emptyState: EmptyStateView {
+        let actionTitle: String? = isReadOnly ? nil : "Add a staircase"
+        let action: (() -> Void)? = isReadOnly ? nil : addStaircase
+
+        return EmptyStateView(
+            icon: "figure.stairs",
+            title: "No staircases recorded",
+            message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
+            actionTitle: actionTitle,
+            action: action
+        )
+    }
+
     var body: some View {
         VStack(spacing: 16) {
             HubCard {
@@ -215,15 +233,7 @@ struct StaircasesTab: View {
             }
 
             if detail.staircases.isEmpty {
-                HubCard {
-                    EmptyStateView(
-                        icon: "figure.stairs",
-                        title: "No staircases recorded",
-                        message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
-                        actionTitle: isReadOnly ? nil : "Add a staircase",
-                        action: isReadOnly ? nil : addStaircase
-                    )
-                }
+                HubCard { emptyState }
             } else {
                 ForEach(detail.staircases.numbered()) { entry in
                     StaircaseCard(

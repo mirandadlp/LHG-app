@@ -312,7 +312,7 @@ struct DashboardScreen: View {
             } else {
                 VStack(spacing: 10) {
                     ForEach(dashboard.needsAttention) { property in
-                        NavigationLink(value: property) {
+                        NavigationLink(value: PropertyRoute(property)) {
                             PropertyRow(property: property)
                         }
                         .buttonStyle(.plain)

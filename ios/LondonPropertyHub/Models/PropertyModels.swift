@@ -1,5 +1,29 @@
 import Foundation
 
+// MARK: - Navigation
+
+/// What a navigation link carries.
+///
+/// Deliberately Hashable and *not* Codable. SwiftUI declares two
+/// `NavigationLink(value:label:)` overloads — one constrained to `Hashable`,
+/// one to `Codable & Hashable` — so passing a model that conforms to both
+/// leaves the compiler with no way to choose, and it reports an ambiguous
+/// `init`. A route type that conforms to exactly one matches exactly one.
+///
+/// Carrying the id rather than the whole summary is also the better shape: the
+/// detail screen re-fetches the record, so it never renders from a stale copy.
+struct PropertyRoute: Hashable {
+    let id: Int
+
+    init(_ property: PropertySummary) {
+        id = property.id
+    }
+
+    init(id: Int) {
+        self.id = id
+    }
+}
+
 // MARK: - List shape
 
 /// The lightweight record behind directory cards, search results and the

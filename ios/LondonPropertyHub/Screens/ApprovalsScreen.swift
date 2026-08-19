@@ -80,7 +80,7 @@ struct ApprovalsScreen: View {
                     HubCard(padding: 14) {
                         HStack(alignment: .top, spacing: 10) {
                             VStack(alignment: .leading, spacing: 4) {
-                                NavigationLink(value: property) {
+                                NavigationLink(value: PropertyRoute(property)) {
                                     Text(property.siteName)
                                         .font(Theme.body(13, weight: .heavy))
                                         .foregroundStyle(Theme.navy)
@@ -179,7 +179,7 @@ struct SubmissionCard: View {
         HubCard(padding: 16) {
             VStack(alignment: .leading, spacing: 12) {
                 HStack(alignment: .top) {
-                    NavigationLink(value: property) {
+                    NavigationLink(value: PropertyRoute(property)) {
                         Text(property.siteName)
                             .font(Theme.body(14, weight: .heavy))
                             .foregroundStyle(Theme.navy)

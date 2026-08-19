@@ -59,11 +59,8 @@ struct MainShell: View {
                 NavigationStack {
                     screen(for: tab)
                         .background(Theme.lavender.ignoresSafeArea())
-                        .navigationDestination(for: PropertySummary.self) { summary in
-                            PropertyDetailScreen(propertyID: summary.id, portfolio: portfolio)
-                        }
-                        .navigationDestination(for: Int.self) { id in
-                            PropertyDetailScreen(propertyID: id, portfolio: portfolio)
+                        .navigationDestination(for: PropertyRoute.self) { route in
+                            PropertyDetailScreen(propertyID: route.id, portfolio: portfolio)
                         }
                 }
                 .tabItem {
