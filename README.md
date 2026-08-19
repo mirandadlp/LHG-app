@@ -5,7 +5,7 @@ lifts, staircases, accessibility, documents — each figure verified by the
 property manager on the ground and signed off by corporate.
 
 ```
-backend/   Laravel 13 API + MySQL 8 schema
+backend/   Laravel 13 API (MySQL 8 in production, SQLite locally)
 ios/       SwiftUI app (iOS 17+), the primary client
 web/       The original React prototype, kept as a reference client
 docs/      Launch guide and API reference
@@ -47,19 +47,44 @@ at, plus the company-total row.
 
 ## Running it locally
 
-### Backend
+Everything runs on your Mac against a SQLite file — no MySQL, no cloud
+services, no network beyond localhost.
+
+### One command
 
 ```bash
-cd backend
-composer install
-cp .env.example .env          # or keep the bundled SQLite .env for a quick start
-php artisan key:generate
-php artisan migrate --seed
-php artisan serve             # http://localhost:8000
+scripts/local-api.sh          # http://localhost:8000
 ```
 
-The seeder creates the seven demo properties and these accounts, all with the
-password `password`:
+It installs Composer dependencies, creates the database and seeds it if that
+has not happened yet, then serves. Leave it running, open the Xcode project and
+hit Run — the Debug configuration already points the simulator at
+`http://localhost:8000`, and `Info.plist` exempts localhost from App Transport
+Security so plain HTTP is allowed there and nowhere else.
+
+Add `--fresh` to throw the database away and re-seed it. Everything the script
+writes is gitignored, so that is always safe.
+
+```bash
+scripts/local-api.sh --fresh
+```
+
+### Prerequisites
+
+PHP 8.3+ with `pdo_sqlite`, `gd` and `zip`, plus Composer. If you have neither:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://php.new/install/mac/8.4)"
+```
+
+That puts `php` and `composer` in `~/.config/herd-lite/bin` and adds it to your
+PATH — open a new terminal afterwards. Homebrew works equally well if you
+already use it.
+
+### Demo accounts
+
+The seeder creates seven properties and eight accounts, all with the password
+`password`:
 
 | Email | Role |
 | --- | --- |
@@ -69,9 +94,18 @@ password `password`:
 
 Change or remove these before the app touches real data.
 
+### Doing it by hand
+
 ```bash
-vendor/bin/phpunit    # 72 tests
-vendor/bin/pint       # code style
+cd backend
+composer install
+cp .env.example .env          # then set DB_CONNECTION=sqlite
+php artisan key:generate
+php artisan migrate --seed
+php artisan serve             # http://localhost:8000
+
+vendor/bin/phpunit            # 75 tests
+vendor/bin/pint               # code style
 ```
 
 ### iOS
@@ -81,9 +115,10 @@ cd ios
 open LondonPropertyHub.xcodeproj
 ```
 
-Pick the **London Property Hub** scheme and run. The Debug configuration points
-at `http://localhost:8000`; a physical device needs your Mac's LAN address
-instead — change `API_BASE_URL` in `Config/Debug.xcconfig`.
+Pick the **London Property Hub** scheme and run. The sign-in screen shows
+`Connected to Local · localhost` when it is pointed at your machine. A physical
+device cannot reach your Mac on localhost — change `API_BASE_URL` in
+`Config/Debug.xcconfig` to your Mac's LAN address, e.g. `http://192.168.1.20:8000`.
 
 ### Web (reference prototype)
 

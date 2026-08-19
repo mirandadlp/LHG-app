@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->group(function () {
     /* ---------------------------- Session ---------------------------- */
     Route::post('/auth/logout', [AuthController::class, 'logout'])->name('auth.logout');
     Route::get('/auth/me', [AuthController::class, 'me'])->name('auth.me');
-    Route::put('/auth/password', [AuthController::class, 'updatePassword'])->name('auth.password');
+    Route::match(['put', 'patch'], '/auth/password', [AuthController::class, 'updatePassword'])->name('auth.password');
 
     /* --------------------------- Cold start -------------------------- */
     Route::get('/bootstrap', BootstrapController::class)->name('bootstrap');
