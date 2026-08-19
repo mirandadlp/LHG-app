@@ -11,20 +11,23 @@ struct ElevatorsTab: View {
 
     private var isReadOnly: Bool { !detail.permissions.canEdit }
 
-    private func addElevator() {
-        Task { await store.addElevator() }
-    }
-
     private var emptyState: EmptyStateView {
-        let actionTitle: String? = isReadOnly ? nil : "Add an elevator"
-        let action: (() -> Void)? = isReadOnly ? nil : addElevator
+        if isReadOnly {
+            return EmptyStateView(
+                icon: "arrow.up.arrow.down",
+                title: "No elevators recorded",
+                message: "Nothing has been recorded for this property.",
+                actionTitle: nil,
+                action: nil
+            )
+        }
 
         return EmptyStateView(
             icon: "arrow.up.arrow.down",
             title: "No elevators recorded",
-            message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
-            actionTitle: actionTitle,
-            action: action
+            message: "Add one to start.",
+            actionTitle: "Add an elevator",
+            action: { Task { await store.addElevator() } }
         )
     }
 
@@ -45,7 +48,9 @@ struct ElevatorsTab: View {
                     Spacer(minLength: 8)
 
                     if !isReadOnly {
-                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true, action: addElevator)
+                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true) {
+                            Task { await store.addElevator() }
+                        }
                     }
                 }
             }
@@ -193,20 +198,23 @@ struct StaircasesTab: View {
 
     private var isReadOnly: Bool { !detail.permissions.canEdit }
 
-    private func addStaircase() {
-        Task { await store.addStaircase() }
-    }
-
     private var emptyState: EmptyStateView {
-        let actionTitle: String? = isReadOnly ? nil : "Add a staircase"
-        let action: (() -> Void)? = isReadOnly ? nil : addStaircase
+        if isReadOnly {
+            return EmptyStateView(
+                icon: "figure.stairs",
+                title: "No staircases recorded",
+                message: "Nothing has been recorded for this property.",
+                actionTitle: nil,
+                action: nil
+            )
+        }
 
         return EmptyStateView(
             icon: "figure.stairs",
             title: "No staircases recorded",
-            message: isReadOnly ? "Nothing has been recorded for this property." : "Add one to start.",
-            actionTitle: actionTitle,
-            action: action
+            message: "Add one to start.",
+            actionTitle: "Add a staircase",
+            action: { Task { await store.addStaircase() } }
         )
     }
 
@@ -227,7 +235,9 @@ struct StaircasesTab: View {
                     Spacer(minLength: 8)
 
                     if !isReadOnly {
-                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true, action: addStaircase)
+                        HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true) {
+                            Task { await store.addStaircase() }
+                        }
                     }
                 }
             }

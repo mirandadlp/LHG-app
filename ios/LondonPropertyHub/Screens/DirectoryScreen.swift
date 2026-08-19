@@ -7,10 +7,6 @@ struct DirectoryScreen: View {
     @Environment(SessionStore.self) private var session
     @State private var showsNewProperty = false
 
-    private func clearFilters() {
-        portfolio.filters.clear()
-    }
-
     /// Split out of `body` so each branch type-checks on its own. Long view
     /// bodies with several branches are where the compiler starts to struggle.
     @ViewBuilder
@@ -35,23 +31,28 @@ struct DirectoryScreen: View {
         }
     }
 
+    /// Two straight-line constructions rather than one with ternaries feeding
+    /// its optional parameters. A conditional between a function reference and
+    /// `nil` gives the type checker more to solve than it reliably can — the
+    /// compiler reports it as a failure to produce a diagnostic, which is no
+    /// help at all. An `if` and explicit arguments leave nothing to infer.
     private var emptyState: EmptyStateView {
-        // Annotated locals rather than ternaries inline in the argument list:
-        // a bare `nil` branch beside a value leaves the compiler inferring the
-        // optional's type from context it does not have yet.
-        let isFiltered = portfolio.filters.isActive
-        let message: String = isFiltered
-            ? "Nothing matches these filters. Reset the scope to see the whole company."
-            : "There are no properties in your portfolio yet."
-        let actionTitle: String? = isFiltered ? "Clear filters" : nil
-        let action: (() -> Void)? = isFiltered ? clearFilters : nil
+        if portfolio.filters.isActive {
+            return EmptyStateView(
+                icon: "building.2",
+                title: "No properties match",
+                message: "Nothing matches these filters. Reset the scope to see the whole company.",
+                actionTitle: "Clear filters",
+                action: { portfolio.filters.clear() }
+            )
+        }
 
         return EmptyStateView(
             icon: "building.2",
             title: "No properties match",
-            message: message,
-            actionTitle: actionTitle,
-            action: action
+            message: "There are no properties in your portfolio yet.",
+            actionTitle: nil,
+            action: nil
         )
     }
 
