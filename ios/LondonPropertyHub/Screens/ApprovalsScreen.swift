@@ -35,7 +35,7 @@ struct ApprovalsScreen: View {
 
     private var awaitingSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            SectionHeading(title: "Awaiting Review") {
+            SectionHeading("Awaiting Review") {
                 Chip(text: "\(portfolio.awaitingReview.count)")
             }
 

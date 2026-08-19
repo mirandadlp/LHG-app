@@ -192,8 +192,20 @@ struct HubButton: View {
 // MARK: - Section heading
 
 struct SectionHeading<Trailing: View>: View {
-    let title: String
-    @ViewBuilder var trailing: Trailing
+    private let title: String
+    private let trailing: Trailing
+
+    /// A heading with something on the right — a button, a count, a chip.
+    ///
+    /// Both initialisers are written out rather than leaning on the synthesised
+    /// memberwise one: a generic view with a memberwise init *and* a
+    /// constrained-extension init gives the compiler an overload set it cannot
+    /// always resolve. Two explicit signatures that differ in arity cannot be
+    /// ambiguous.
+    init(_ title: String, @ViewBuilder trailing: () -> Trailing) {
+        self.title = title
+        self.trailing = trailing()
+    }
 
     var body: some View {
         HStack(alignment: .firstTextBaseline) {
@@ -209,8 +221,9 @@ struct SectionHeading<Trailing: View>: View {
 }
 
 extension SectionHeading where Trailing == EmptyView {
+    /// A heading on its own.
     init(_ title: String) {
-        self.init(title: title) { EmptyView() }
+        self.init(title) { EmptyView() }
     }
 }
 

@@ -73,7 +73,7 @@ struct AdminFieldsScreen: View {
 
     private var customFieldsCard: some View {
         VStack(alignment: .leading, spacing: 12) {
-            SectionHeading(title: "Custom Fields") {
+            SectionHeading("Custom Fields") {
                 HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true) {
                     showsNewField = true
                 }

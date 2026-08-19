@@ -24,7 +24,7 @@ struct DirectoryScreen: View {
                 )
 
                 VStack(spacing: 14) {
-                    SectionHeading(title: "All Properties") {
+                    SectionHeading("All Properties") {
                         if session.canCreateProperties {
                             HubButton(title: "Add", icon: "plus", style: .amber, isCompact: true) {
                                 showsNewProperty = true
@@ -93,7 +93,7 @@ struct ExploreScreen: View {
                 )
 
                 VStack(spacing: 14) {
-                    SectionHeading(title: resultsTitle) {
+                    SectionHeading(resultsTitle) {
                         Text("\(portfolio.properties.count) \(portfolio.properties.count == 1 ? "result" : "results")")
                             .font(Theme.body(11, weight: .bold))
                             .foregroundStyle(Theme.muted)

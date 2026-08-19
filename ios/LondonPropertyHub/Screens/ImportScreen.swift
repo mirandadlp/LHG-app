@@ -215,7 +215,7 @@ struct ImportScreen: View {
 
     private func previewCard(_ parse: ImportParse) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            SectionHeading(title: "Preview") {
+            SectionHeading("Preview") {
                 Chip(text: "\(importableCount) ready", tone: importableCount > 0 ? .yellow : .soft)
             }
 
