@@ -212,14 +212,21 @@ struct FilterSheet: View {
 // MARK: - Account sheet
 
 struct AccountSheet: View {
+    let portfolio: PortfolioStore
+
     @Environment(SessionStore.self) private var session
     @Environment(\.dismiss) private var dismiss
 
     @State private var isSigningOut = false
+    @State private var isResetting = false
 
     var body: some View {
         NavigationStack {
             Form {
+                if session.isDemo {
+                    demoSection
+                }
+
                 if let user = session.user {
                     Section {
                         LabeledContent("Name", value: user.name)
@@ -262,7 +269,9 @@ struct AccountSheet: View {
                     }
                     .disabled(isSigningOut)
                 } footer: {
-                    if !APIConfiguration.environmentLabel.isEmpty {
+                    if session.isDemo {
+                        Text("Signed in to the demo. Sign out to return to the real sign-in screen.")
+                    } else if !APIConfiguration.environmentLabel.isEmpty {
                         Text("Connected to \(APIConfiguration.environmentLabel) · \(APIConfiguration.baseURL.host() ?? "")")
                     }
                 }
@@ -274,6 +283,37 @@ struct AccountSheet: View {
                     Button("Done") { dismiss() }
                 }
             }
+        }
+    }
+
+    /// Shown only on a demo account: says plainly that the figures are made up,
+    /// and offers the way back to a clean copy of them.
+    private var demoSection: some View {
+        Section {
+            Button {
+                isResetting = true
+
+                Task {
+                    await session.resetDemoData()
+                    await portfolio.reload()
+                    isResetting = false
+                    dismiss()
+                }
+            } label: {
+                HStack {
+                    Label("Reset demo data", systemImage: "arrow.counterclockwise")
+
+                    if isResetting {
+                        Spacer()
+                        ProgressView().controlSize(.small)
+                    }
+                }
+            }
+            .disabled(isResetting)
+        } header: {
+            Label("Demo mode", systemImage: "play.circle.fill")
+        } footer: {
+            Text("Every figure here is sample data held on this device. Nothing is sent to a server, and nothing you change is saved anywhere else.")
         }
     }
 }

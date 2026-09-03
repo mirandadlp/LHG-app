@@ -78,8 +78,8 @@ struct MainShell: View {
                 .presentationDragIndicator(.visible)
         }
         .sheet(isPresented: $showsAccount) {
-            AccountSheet()
-                .presentationDetents([.medium])
+            AccountSheet(portfolio: portfolio)
+                .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
         }
     }
@@ -153,6 +153,18 @@ struct HubHeader: View {
                             .font(Theme.body(10))
                     }
                     .foregroundStyle(.white.opacity(0.6))
+                }
+
+                if session.isDemo {
+                    // Sample figures must never be mistaken for real ones, so
+                    // the badge stays on screen for the whole demo.
+                    Text("DEMO")
+                        .font(Theme.body(9, weight: .heavy))
+                        .foregroundStyle(Theme.navyDark)
+                        .padding(.horizontal, 7)
+                        .padding(.vertical, 3)
+                        .background(Theme.amber, in: Capsule())
+                        .accessibilityLabel("Demo mode, sample data")
                 }
 
                 Spacer()

@@ -10,6 +10,32 @@ struct PropertyAPI {
         self.client = client
     }
 
+    /// The in-memory backend while a demo account is signed in, and nil the rest
+    /// of the time — in which case every call below goes to the server exactly
+    /// as it always has.
+    private var demoBackend: DemoBackend? {
+        get async { await DemoBackend.shared.isActive ? DemoBackend.shared : nil }
+    }
+
+    /// Called once at launch, before anything else: a demo token in the Keychain
+    /// means the app should come back up in demo mode rather than try to use a
+    /// token no server ever issued.
+    func restoreDemoSession() async {
+        await DemoBackend.shared.restoreIfNeeded()
+    }
+
+    /// True while a demo account is signed in, for the badges that say so.
+    var isDemoSession: Bool {
+        get async { await demoBackend != nil }
+    }
+
+    /// Throw the demo edits away and start the tour again from the seed.
+    func resetDemoData() async {
+        guard await demoBackend != nil else { return }
+
+        await DemoBackend.shared.reset()
+    }
+
     // MARK: - Session
 
     struct LoginResponse: Decodable {
@@ -19,6 +45,19 @@ struct PropertyAPI {
     }
 
     func login(email: String, password: String) async throws -> LoginResponse {
+        // A demo address never leaves the device. Any password is accepted:
+        // there is nothing behind it to protect.
+        if let persona = DemoAccount.persona(forEmail: email) {
+            let response = await DemoBackend.shared.signIn(as: persona)
+
+            await client.store(token: response.token)
+
+            return response
+        }
+
+        // Signing in for real ends any demo session still in memory.
+        await DemoBackend.shared.signOut()
+
         struct Body: Encodable {
             let email: String
             let password: String
@@ -37,6 +76,13 @@ struct PropertyAPI {
     }
 
     func logout() async {
+        if await demoBackend != nil {
+            await DemoBackend.shared.signOut()
+            await client.clearToken()
+
+            return
+        }
+
         // A failed sign-out must still sign the user out locally, or they are
         // stuck on a screen they cannot leave.
         _ = try? await client.post("auth/logout", as: MessageResponse.self)
@@ -44,7 +90,9 @@ struct PropertyAPI {
     }
 
     func me() async throws -> CurrentUser {
-        try await client.get("auth/me", as: CurrentUser.self)
+        if let demo = await demoBackend { return await demo.currentUser }
+
+        return try await client.get("auth/me", as: CurrentUser.self)
     }
 
     func changePassword(current: String, new: String, confirmation: String) async throws -> MessageResponse {
@@ -52,6 +100,10 @@ struct PropertyAPI {
             let currentPassword: String
             let password: String
             let password_confirmation: String
+        }
+
+        if await demoBackend != nil {
+            throw APIError.forbidden("A demo account has no password to change.")
         }
 
         return try await client.patch(
@@ -64,21 +116,29 @@ struct PropertyAPI {
     // MARK: - Cold start
 
     func bootstrap() async throws -> BootstrapPayload {
-        try await client.get("bootstrap", as: BootstrapPayload.self)
+        if let demo = await demoBackend { return await demo.bootstrap() }
+
+        return try await client.get("bootstrap", as: BootstrapPayload.self)
     }
 
     func dashboard(filters: PropertyFilters) async throws -> DashboardPayload {
-        try await client.get("dashboard", query: filters.queryItems, as: DashboardPayload.self)
+        if let demo = await demoBackend { return await demo.dashboard(filters: filters) }
+
+        return try await client.get("dashboard", query: filters.queryItems, as: DashboardPayload.self)
     }
 
     // MARK: - Properties
 
     func properties(filters: PropertyFilters) async throws -> [PropertySummary] {
-        try await client.get("properties", query: filters.queryItems, as: [PropertySummary].self)
+        if let demo = await demoBackend { return await demo.summaries(filters: filters) }
+
+        return try await client.get("properties", query: filters.queryItems, as: [PropertySummary].self)
     }
 
     func property(id: Int) async throws -> PropertyDetail {
-        try await client.get("properties/\(id)", as: PropertyDetail.self)
+        if let demo = await demoBackend { return try await demo.detail(id: id) }
+
+        return try await client.get("properties/\(id)", as: PropertyDetail.self)
     }
 
     struct ValuesBody: Encodable {
@@ -87,7 +147,9 @@ struct PropertyAPI {
     }
 
     func createProperty(values: [String: FieldValue]) async throws -> PropertyDetail {
-        try await client.post(
+        if let demo = await demoBackend { return try await demo.createProperty(values: values) }
+
+        return try await client.post(
             "properties",
             body: ValuesBody(values: values, reason: "New property added"),
             as: PropertyDetail.self
@@ -95,7 +157,11 @@ struct PropertyAPI {
     }
 
     func updateProperty(id: Int, values: [String: FieldValue], reason: String? = nil) async throws -> PropertyDetail {
-        try await client.patch(
+        if let demo = await demoBackend {
+            return try await demo.updateProperty(id: id, values: values, reason: reason)
+        }
+
+        return try await client.patch(
             "properties/\(id)",
             body: ValuesBody(values: values, reason: reason),
             as: PropertyDetail.self
@@ -103,7 +169,9 @@ struct PropertyAPI {
     }
 
     func deleteProperty(id: Int) async throws -> MessageResponse {
-        try await client.delete("properties/\(id)", as: MessageResponse.self)
+        if let demo = await demoBackend { return try await demo.deleteProperty(id: id) }
+
+        return try await client.delete("properties/\(id)", as: MessageResponse.self)
     }
 
     struct AccommodationBody: Encodable {
@@ -116,7 +184,11 @@ struct PropertyAPI {
         counts: [String: Int?],
         reason: String? = nil
     ) async throws -> PropertyDetail {
-        try await client.patch(
+        if let demo = await demoBackend {
+            return try await demo.updateAccommodation(id: id, counts: counts, reason: reason)
+        }
+
+        return try await client.patch(
             "properties/\(id)/accommodation",
             body: AccommodationBody(accommodation: counts, reason: reason),
             as: PropertyDetail.self
@@ -126,7 +198,9 @@ struct PropertyAPI {
     // MARK: - Verification workflow
 
     func submit(id: Int) async throws -> PropertyDetail {
-        try await client.post("properties/\(id)/submit", as: PropertyDetail.self)
+        if let demo = await demoBackend { return try await demo.submit(id: id) }
+
+        return try await client.post("properties/\(id)/submit", as: PropertyDetail.self)
     }
 
     struct CommentBody: Encodable {
@@ -134,7 +208,9 @@ struct PropertyAPI {
     }
 
     func approve(id: Int, comment: String?) async throws -> PropertyDetail {
-        try await client.post(
+        if let demo = await demoBackend { return try await demo.approve(id: id, comment: comment) }
+
+        return try await client.post(
             "properties/\(id)/approve",
             body: CommentBody(comment: comment),
             as: PropertyDetail.self
@@ -142,7 +218,9 @@ struct PropertyAPI {
     }
 
     func requestChanges(id: Int, comment: String?) async throws -> PropertyDetail {
-        try await client.post(
+        if let demo = await demoBackend { return try await demo.requestChanges(id: id, comment: comment) }
+
+        return try await client.post(
             "properties/\(id)/request-changes",
             body: CommentBody(comment: comment),
             as: PropertyDetail.self
@@ -150,7 +228,9 @@ struct PropertyAPI {
     }
 
     func requestVerification(id: Int) async throws -> PropertyDetail {
-        try await client.post("properties/\(id)/request-verification", as: PropertyDetail.self)
+        if let demo = await demoBackend { return try await demo.requestVerification(id: id) }
+
+        return try await client.post("properties/\(id)/request-verification", as: PropertyDetail.self)
     }
 
     // MARK: - Lifts and stairs
@@ -188,11 +268,17 @@ struct PropertyAPI {
     }
 
     func addElevator(propertyID: Int) async throws -> Elevator {
-        try await client.post("properties/\(propertyID)/elevators", body: ElevatorBody(), as: Elevator.self)
+        if let demo = await demoBackend { return try await demo.addElevator(propertyID: propertyID) }
+
+        return try await client.post("properties/\(propertyID)/elevators", body: ElevatorBody(), as: Elevator.self)
     }
 
     func updateElevator(propertyID: Int, elevator: Elevator) async throws -> Elevator {
-        try await client.patch(
+        if let demo = await demoBackend {
+            return try await demo.updateElevator(propertyID: propertyID, elevator: elevator)
+        }
+
+        return try await client.patch(
             "properties/\(propertyID)/elevators/\(elevator.id)",
             body: ElevatorBody(from: elevator),
             as: Elevator.self
@@ -200,7 +286,11 @@ struct PropertyAPI {
     }
 
     func deleteElevator(propertyID: Int, elevatorID: Int) async throws -> MessageResponse {
-        try await client.delete("properties/\(propertyID)/elevators/\(elevatorID)", as: MessageResponse.self)
+        if let demo = await demoBackend {
+            return try await demo.deleteElevator(propertyID: propertyID, elevatorID: elevatorID)
+        }
+
+        return try await client.delete("properties/\(propertyID)/elevators/\(elevatorID)", as: MessageResponse.self)
     }
 
     struct StaircaseBody: Encodable {
@@ -226,11 +316,17 @@ struct PropertyAPI {
     }
 
     func addStaircase(propertyID: Int) async throws -> Staircase {
-        try await client.post("properties/\(propertyID)/staircases", body: StaircaseBody(), as: Staircase.self)
+        if let demo = await demoBackend { return try await demo.addStaircase(propertyID: propertyID) }
+
+        return try await client.post("properties/\(propertyID)/staircases", body: StaircaseBody(), as: Staircase.self)
     }
 
     func updateStaircase(propertyID: Int, staircase: Staircase) async throws -> Staircase {
-        try await client.patch(
+        if let demo = await demoBackend {
+            return try await demo.updateStaircase(propertyID: propertyID, staircase: staircase)
+        }
+
+        return try await client.patch(
             "properties/\(propertyID)/staircases/\(staircase.id)",
             body: StaircaseBody(from: staircase),
             as: Staircase.self
@@ -238,7 +334,11 @@ struct PropertyAPI {
     }
 
     func deleteStaircase(propertyID: Int, staircaseID: Int) async throws -> MessageResponse {
-        try await client.delete("properties/\(propertyID)/staircases/\(staircaseID)", as: MessageResponse.self)
+        if let demo = await demoBackend {
+            return try await demo.deleteStaircase(propertyID: propertyID, staircaseID: staircaseID)
+        }
+
+        return try await client.delete("properties/\(propertyID)/staircases/\(staircaseID)", as: MessageResponse.self)
     }
 
     // MARK: - Documents
@@ -249,7 +349,16 @@ struct PropertyAPI {
         type: String,
         notes: String
     ) async throws -> PropertyDocument {
-        try await client.upload(
+        if let demo = await demoBackend {
+            return try await demo.uploadDocument(
+                propertyID: propertyID,
+                fileURL: fileURL,
+                type: type,
+                notes: notes
+            )
+        }
+
+        return try await client.upload(
             "properties/\(propertyID)/documents",
             fileURL: fileURL,
             fields: ["type": type, "notes": notes],
@@ -258,11 +367,17 @@ struct PropertyAPI {
     }
 
     func deleteDocument(propertyID: Int, documentID: Int) async throws -> MessageResponse {
-        try await client.delete("properties/\(propertyID)/documents/\(documentID)", as: MessageResponse.self)
+        if let demo = await demoBackend {
+            return try await demo.deleteDocument(propertyID: propertyID, documentID: documentID)
+        }
+
+        return try await client.delete("properties/\(propertyID)/documents/\(documentID)", as: MessageResponse.self)
     }
 
     func downloadDocument(_ document: PropertyDocument) async throws -> URL {
-        try await client.download("documents/\(document.id)/download", suggestedName: document.name)
+        if let demo = await demoBackend { return try await demo.downloadDocument(document) }
+
+        return try await client.download("documents/\(document.id)/download", suggestedName: document.name)
     }
 
     // MARK: - Change flags
@@ -272,7 +387,11 @@ struct PropertyAPI {
     }
 
     func resolveFlag(propertyID: Int, flagID: Int, confirm: Bool) async throws -> PropertyDetail {
-        try await client.post(
+        if let demo = await demoBackend {
+            return try await demo.resolveFlag(propertyID: propertyID, flagID: flagID, confirm: confirm)
+        }
+
+        return try await client.post(
             "properties/\(propertyID)/flags/\(flagID)/resolve",
             body: FlagBody(action: confirm ? "confirm" : "revert"),
             as: PropertyDetail.self
@@ -282,6 +401,8 @@ struct PropertyAPI {
     // MARK: - Reports
 
     func report(filters: PropertyFilters, columns: [String]) async throws -> ReportPayload {
+        if let demo = await demoBackend { return await demo.report(filters: filters, columns: columns) }
+
         var query = filters.queryItems
         query.append(URLQueryItem(name: "columns", value: columns.joined(separator: ",")))
 
@@ -316,6 +437,15 @@ struct PropertyAPI {
         columns: [String],
         entirePortfolio: Bool
     ) async throws -> URL {
+        if let demo = await demoBackend {
+            return try await demo.exportReport(
+                format: format,
+                filters: filters,
+                columns: columns,
+                entirePortfolio: entirePortfolio
+            )
+        }
+
         var query = entirePortfolio ? [URLQueryItem(name: "scope", value: "all")] : filters.queryItems
         query.append(URLQueryItem(name: "columns", value: columns.joined(separator: ",")))
 
@@ -329,7 +459,9 @@ struct PropertyAPI {
     // MARK: - Import
 
     func importPreview(fileURL: URL) async throws -> ImportParse {
-        try await client.upload("import/preview", fileURL: fileURL, as: ImportParse.self)
+        if let demo = await demoBackend { return try await demo.importPreview(fileURL: fileURL) }
+
+        return try await client.upload("import/preview", fileURL: fileURL, as: ImportParse.self)
     }
 
     struct RemapBody: Encodable {
@@ -342,7 +474,9 @@ struct PropertyAPI {
     }
 
     func importRemap(rows: [[String: ReportCell]], mapping: [String: String]) async throws -> [ImportPreviewRow] {
-        try await client.post(
+        if let demo = await demoBackend { return await demo.importRemap(rows: rows, mapping: mapping) }
+
+        return try await client.post(
             "import/remap",
             body: RemapBody(rows: rows, mapping: mapping),
             as: RemapResponse.self
@@ -360,7 +494,11 @@ struct PropertyAPI {
         mapping: [String: String],
         fileName: String
     ) async throws -> ImportResult {
-        try await client.post(
+        if let demo = await demoBackend {
+            return try await demo.importCommit(rows: rows, mapping: mapping, fileName: fileName)
+        }
+
+        return try await client.post(
             "import/commit",
             body: CommitBody(rows: rows, mapping: mapping, fileName: fileName),
             as: ImportResult.self
@@ -368,7 +506,9 @@ struct PropertyAPI {
     }
 
     func downloadSampleSpreadsheet() async throws -> URL {
-        try await client.download(
+        if let demo = await demoBackend { return try await demo.sampleSpreadsheet() }
+
+        return try await client.download(
             "import/sample",
             suggestedName: "legacy-property-spreadsheet.xlsx"
         )
@@ -392,13 +532,17 @@ struct PropertyAPI {
     }
 
     func createField(_ body: NewFieldBody) async throws -> FieldsResponse {
-        try await client.post("field-definitions", body: body, as: FieldsResponse.self)
+        if let demo = await demoBackend { return try await demo.createField(body) }
+
+        return try await client.post("field-definitions", body: body, as: FieldsResponse.self)
     }
 
     func deleteField(_ field: FieldDefinition) async throws -> FieldsResponse {
         guard let id = field.definitionId else {
             throw APIError.forbidden("Base fields cannot be removed.")
         }
+
+        if let demo = await demoBackend { return try await demo.deleteField(definitionID: id) }
 
         return try await client.delete("field-definitions/\(id)", as: FieldsResponse.self)
     }
@@ -412,10 +556,14 @@ struct PropertyAPI {
     }
 
     func addOption(list: String, value: String) async throws -> OptionsResponse {
-        try await client.post("option-lists/\(list)", body: OptionBody(value: value), as: OptionsResponse.self)
+        if let demo = await demoBackend { return try await demo.addOption(list: list, value: value) }
+
+        return try await client.post("option-lists/\(list)", body: OptionBody(value: value), as: OptionsResponse.self)
     }
 
     func removeOption(list: String, value: String) async throws -> OptionsResponse {
+        if let demo = await demoBackend { return try await demo.removeOption(list: list, value: value) }
+
         let encoded = value.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? value
 
         return try await client.delete("option-lists/\(list)/\(encoded)", as: OptionsResponse.self)

@@ -23,6 +23,10 @@ struct SignInView: View {
                 VStack(spacing: 0) {
                     hero
                     form
+
+                    if DemoAccount.isEnabled {
+                        demoCard
+                    }
                 }
             }
             .scrollDismissesKeyboard(.interactively)
@@ -180,6 +184,90 @@ struct SignInView: View {
         .shadow(color: Theme.navy.opacity(0.1), radius: 20, y: 8)
         .padding(20)
         .animation(.easeOut(duration: 0.2), value: session.signInError)
+    }
+
+    // MARK: - Demo
+
+    /// Three one-tap sign-ins that run entirely on the device.
+    ///
+    /// A demo address is recognised before the request is built, so nothing is
+    /// sent anywhere and no server needs to be running. It is the fastest way to
+    /// see what each role can and cannot do.
+    private var demoCard: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                Image(systemName: "play.circle.fill")
+                    .font(.system(size: 14))
+                    .foregroundStyle(Theme.amber)
+
+                Text("Try it without an account")
+                    .font(Theme.body(13, weight: .heavy))
+                    .foregroundStyle(Theme.ink)
+            }
+
+            Text("Sample data, on this device only. Nothing you change is sent anywhere, and signing out puts it all back.")
+                .font(Theme.body(11))
+                .foregroundStyle(Theme.muted)
+                .fixedSize(horizontal: false, vertical: true)
+
+            VStack(spacing: 8) {
+                ForEach(DemoPersona.allCases) { persona in
+                    Button {
+                        signIn(as: persona)
+                    } label: {
+                        HStack(spacing: 10) {
+                            Image(systemName: persona.icon)
+                                .font(.system(size: 13))
+                                .foregroundStyle(Theme.navy)
+                                .frame(width: 22)
+
+                            VStack(alignment: .leading, spacing: 1) {
+                                Text(persona.role.label)
+                                    .font(Theme.body(12, weight: .bold))
+                                    .foregroundStyle(Theme.ink)
+
+                                Text(persona.blurb)
+                                    .font(Theme.body(10))
+                                    .foregroundStyle(Theme.muted)
+                            }
+
+                            Spacer(minLength: 0)
+
+                            Image(systemName: "chevron.right")
+                                .font(.system(size: 11, weight: .semibold))
+                                .foregroundStyle(Theme.muted)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 10)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(
+                            Theme.lavender,
+                            in: RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        )
+                    }
+                    .buttonStyle(.plain)
+                    .disabled(session.isSigningIn)
+                }
+            }
+
+            Text("Or sign in with \(DemoPersona.admin.email) and any password.")
+                .font(Theme.body(10))
+                .foregroundStyle(Theme.muted)
+                .fixedSize(horizontal: false, vertical: true)
+        }
+        .padding(20)
+        .background(Color.white, in: RoundedRectangle(cornerRadius: Theme.heroRadius, style: .continuous))
+        .shadow(color: Theme.navy.opacity(0.06), radius: 14, y: 6)
+        .padding(.horizontal, 20)
+        .padding(.bottom, 28)
+    }
+
+    private func signIn(as persona: DemoPersona) {
+        focusedField = nil
+        email = persona.email
+        password = DemoAccount.password
+
+        Task { await session.signIn(email: persona.email, password: DemoAccount.password) }
     }
 
     private func submit() {

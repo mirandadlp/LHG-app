@@ -39,6 +39,14 @@
 		CF22425B7A60AF828FEE9FB7 /* PropertyModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1849DBF8645D7B554A98E8C /* PropertyModels.swift */; };
 		DDBBD49AE9AD31D0D5E8A857 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47EF14C7B08E1D6615B0B7B6 /* SignInView.swift */; };
 		DF689DA9F4950A8333369F80 /* PropertyAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA98E30A61C1F8FE58D1B15C /* PropertyAPI.swift */; };
+		0923C564CAB812BC0416B9EC /* DemoAccount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033FEFF842341E1FD7993A34 /* DemoAccount.swift */; };
+		8FB2F51A587FBC1DCBE27060 /* DemoBackend.swift in Sources */ = {isa = PBXBuildFile; fileRef = A45C6799F0F0E13E9704490B /* DemoBackend.swift */; };
+		768B97812BCB18AB9E42DF49 /* DemoBackend+Import.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CEE1E3E5E281CCBF12EDB6 /* DemoBackend+Import.swift */; };
+		3BB939B4BB64D872CC49913F /* DemoBackend+Reports.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03B9FDCFA87AC6340601B9D1 /* DemoBackend+Reports.swift */; };
+		3082D69E34854DD18464129B /* DemoFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73982ADE4A207DF18273292B /* DemoFiles.swift */; };
+		8538A03E1227D4A22FDDBB60 /* DemoRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36B46F1FE610C19512A5085B /* DemoRecord.swift */; };
+		D075C2E29DD92B1B77FC87E4 /* DemoRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7802E25C7923B824894A3004 /* DemoRegistry.swift */; };
+		F2BCFD3FD3B6B81CAAFC2883 /* DemoSeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91314CFA04774B53C06C76CF /* DemoSeed.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +99,14 @@
 		E1849DBF8645D7B554A98E8C /* PropertyModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyModels.swift; sourceTree = "<group>"; };
 		EA98E30A61C1F8FE58D1B15C /* PropertyAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyAPI.swift; sourceTree = "<group>"; };
 		F34D7273B82A890DE248DD74 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
+		033FEFF842341E1FD7993A34 /* DemoAccount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoAccount.swift"; sourceTree = "<group>"; };
+		A45C6799F0F0E13E9704490B /* DemoBackend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoBackend.swift"; sourceTree = "<group>"; };
+		50CEE1E3E5E281CCBF12EDB6 /* DemoBackend+Import.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoBackend+Import.swift"; sourceTree = "<group>"; };
+		03B9FDCFA87AC6340601B9D1 /* DemoBackend+Reports.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoBackend+Reports.swift"; sourceTree = "<group>"; };
+		73982ADE4A207DF18273292B /* DemoFiles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoFiles.swift"; sourceTree = "<group>"; };
+		36B46F1FE610C19512A5085B /* DemoRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoRecord.swift"; sourceTree = "<group>"; };
+		7802E25C7923B824894A3004 /* DemoRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoRegistry.swift"; sourceTree = "<group>"; };
+		91314CFA04774B53C06C76CF /* DemoSeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DemoSeed.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,6 +146,21 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		171DDD6928F0FF267AB9B1DD /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				033FEFF842341E1FD7993A34 /* DemoAccount.swift */,
+				A45C6799F0F0E13E9704490B /* DemoBackend.swift */,
+				50CEE1E3E5E281CCBF12EDB6 /* DemoBackend+Import.swift */,
+				03B9FDCFA87AC6340601B9D1 /* DemoBackend+Reports.swift */,
+				73982ADE4A207DF18273292B /* DemoFiles.swift */,
+				36B46F1FE610C19512A5085B /* DemoRecord.swift */,
+				7802E25C7923B824894A3004 /* DemoRegistry.swift */,
+				91314CFA04774B53C06C76CF /* DemoSeed.swift */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
 		398F0CFF939996D5D7DA1F07 /* DesignSystem */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,6 +174,7 @@
 			children = (
 				5834320CFE53A413067CAEF5 /* App */,
 				160C1ECD6FDE964D55FE172D /* Components */,
+				171DDD6928F0FF267AB9B1DD /* Demo */,
 				398F0CFF939996D5D7DA1F07 /* DesignSystem */,
 				847F9015962F3FD8EFBB7EFD /* Models */,
 				E592C463CF0135DBF40A4AE3 /* Networking */,
@@ -372,6 +404,14 @@
 				37D8E38E0011381CD8B31550 /* CoreComponents.swift in Sources */,
 				9B0CD64228FB42E0A97EBF08 /* FieldEditor.swift in Sources */,
 				6CF45C94762C85649E7700F1 /* PropertyCard.swift in Sources */,
+				0923C564CAB812BC0416B9EC /* DemoAccount.swift in Sources */,
+				8FB2F51A587FBC1DCBE27060 /* DemoBackend.swift in Sources */,
+				768B97812BCB18AB9E42DF49 /* DemoBackend+Import.swift in Sources */,
+				3BB939B4BB64D872CC49913F /* DemoBackend+Reports.swift in Sources */,
+				3082D69E34854DD18464129B /* DemoFiles.swift in Sources */,
+				8538A03E1227D4A22FDDBB60 /* DemoRecord.swift in Sources */,
+				D075C2E29DD92B1B77FC87E4 /* DemoRegistry.swift in Sources */,
+				F2BCFD3FD3B6B81CAAFC2883 /* DemoSeed.swift in Sources */,
 				68865EEE797DD80D224D8D63 /* Theme.swift in Sources */,
 				A0ED01B0AB560DA8B529DC03 /* CoreModels.swift in Sources */,
 				CF22425B7A60AF828FEE9FB7 /* PropertyModels.swift in Sources */,

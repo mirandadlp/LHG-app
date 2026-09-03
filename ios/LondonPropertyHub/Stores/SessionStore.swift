@@ -17,6 +17,10 @@ final class SessionStore {
     private(set) var user: CurrentUser?
     private(set) var bootstrap: BootstrapPayload?
 
+    /// True when the signed-in account is one of the demo sign-ins, so the
+    /// screens can say so and nobody mistakes seeded figures for real ones.
+    private(set) var isDemo = false
+
     var signInError: String?
     var isSigningIn = false
 
@@ -41,6 +45,10 @@ final class SessionStore {
     /// Called once at launch: if a token is already in the Keychain, use it
     /// rather than asking the user to sign in again.
     func restore() async {
+        // A demo session has to be re-entered before anything asks the API for
+        // data, or the first call would go looking for a server.
+        await api.restoreDemoSession()
+
         guard await APIClient.shared.isAuthenticated else {
             state = .signedOut
             return
@@ -50,6 +58,7 @@ final class SessionStore {
             let payload = try await api.bootstrap()
             bootstrap = payload
             user = payload.user
+            isDemo = await api.isDemoSession
             state = .signedIn
         } catch {
             // A stale or revoked token just means signing in again.
@@ -74,6 +83,7 @@ final class SessionStore {
 
             user = response.user
             bootstrap = try await api.bootstrap()
+            isDemo = await api.isDemoSession
             state = .signedIn
         } catch let error as APIError {
             signInError = error.errorDescription
@@ -87,7 +97,18 @@ final class SessionStore {
 
         user = nil
         bootstrap = nil
+        isDemo = false
         state = .signedOut
+    }
+
+    /// Throw away everything done during a demo and start again from the seed.
+    func resetDemoData() async {
+        guard isDemo else { return }
+
+        await api.resetDemoData()
+
+        bootstrap = try? await api.bootstrap()
+        show("Demo data reset.", style: .success)
     }
 
     /// Pull the registry again after corporate adds or removes a custom field.
@@ -174,6 +195,7 @@ final class SessionStore {
 
                 self.user = nil
                 self.bootstrap = nil
+                self.isDemo = false
                 self.state = .signedOut
                 self.signInError = "Your session expired. Please sign in again."
             }

@@ -45,6 +45,42 @@ duplicates and all — before a single row is written.
 CSV, Excel and PDF, containing exactly the columns and filters you are looking
 at, plus the company-total row.
 
+## Trying it without a server
+
+The iOS app ships with a demo account. Sign in with one of these and nothing
+leaves the device — no API, no database, no network at all — but every screen
+works against a full sample portfolio held in memory.
+
+| Email | What you get |
+| --- | --- |
+| `demo@londonhotelgroup.co.uk` | Corporate Administrator — approvals, import, custom fields |
+| `demo.manager@londonhotelgroup.co.uk` | Property Manager — three properties, locked once submitted |
+| `demo.leadership@londonhotelgroup.co.uk` | Leadership — the whole portfolio, read-only |
+
+Any password is accepted, and the sign-in screen has a one-tap button for each
+role. The seven seeded properties, their lifts, stairs, documents and audit
+history are the same ones the server seeder creates, so the two tell the same
+story.
+
+The demo is not a set of screenshots. It enforces the real rules — role scoping,
+the lock on a submitted record, the audit trail, large-change flags, field
+validation — and anything the API would refuse, the demo refuses too, in the
+same words. Exports are real files: a working CSV, a real `.xlsx` workbook and a
+rendered PDF all come out of the reports screen.
+
+The one thing the demo does less of than the API is read Excel binaries. Import
+parses the file you pick as long as it is a CSV, which is what the sample file
+on the import screen gives you, so download it and upload it back to run the
+mapping, the duplicate check and the commit for real. An `.xlsx` is turned away
+with a message saying so rather than a canned result.
+
+Everything you change lives in memory for that session. **Reset demo data** in
+the account sheet, signing out, or relaunching the app puts it all back.
+
+Demo sign-ins work in every build, including Release, so an App Store reviewer
+can get in. To keep them out of production, set `isEnabled` in
+`ios/LondonPropertyHub/Demo/DemoAccount.swift` to `!APIConfiguration.isProduction`.
+
 ## Running it locally
 
 Everything runs on your Mac against a SQLite file — no MySQL, no cloud
@@ -81,10 +117,11 @@ That puts `php` and `composer` in `~/.config/herd-lite/bin` and adds it to your
 PATH — open a new terminal afterwards. Homebrew works equally well if you
 already use it.
 
-### Demo accounts
+### Server accounts
 
 The seeder creates seven properties and eight accounts, all with the password
-`password`:
+`password`. These are real accounts on your local API — separate from the
+on-device demo above, which needs no server:
 
 | Email | Role |
 | --- | --- |
@@ -121,7 +158,8 @@ open LondonPropertyHub.xcodeproj
 ```
 
 Pick the **London Property Hub** scheme and run. The sign-in screen shows
-`Connected to Local · localhost` when it is pointed at your machine. A physical
+`Connected to Local · localhost` when it is pointed at your machine — or sign in
+with a demo account and skip the API entirely. A physical
 device cannot reach your Mac on localhost — change `API_BASE_URL` in
 `Config/Debug.xcconfig` to your Mac's LAN address, e.g. `http://192.168.1.20:8000`.
 
@@ -152,6 +190,13 @@ touching one list, not five.
 real columns on `properties`, so filtering and aggregation stay fast. Fields
 added after launch live in `property_field_values`, which is why the business
 can extend the record without a migration.
+
+**The demo is the same app, not a mock of it.** `PropertyAPI` is the only thing
+that knows about demo mode: it routes to `DemoBackend`, an actor holding the
+portfolio in memory, and every screen, store and model above it is unchanged.
+`Demo/DemoRegistry.swift` mirrors `FieldRegistry` and friends, and the rules —
+`PropertyPolicy`, `PropertyWriter`, `ReportBuilder`, `UpdatePropertyRequest` —
+are reproduced next to a note saying which server class each one answers to.
 
 **Editing is optimistic and debounced.** A field updates on screen straight
 away, the request follows ~600 ms later, and a rejected change is rolled back
