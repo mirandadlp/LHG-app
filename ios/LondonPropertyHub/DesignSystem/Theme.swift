@@ -125,3 +125,24 @@ extension Int {
         return formatter
     }()
 }
+
+// MARK: - Safe area
+
+/// The window's top inset, published once from the root.
+///
+/// The hero headers deliberately bleed under the status bar — the gradient runs
+/// to the very top edge — which means the screens carrying them ignore the top
+/// safe area and their content would otherwise be laid out beneath the clock
+/// and the Dynamic Island, where it is unreadable and, for the account button,
+/// close to untappable. Reading the inset here lets a header keep the bleed and
+/// still start its content below the hardware.
+private struct TopSafeAreaInsetKey: EnvironmentKey {
+    static let defaultValue: CGFloat = 0
+}
+
+extension EnvironmentValues {
+    var topSafeAreaInset: CGFloat {
+        get { self[TopSafeAreaInsetKey.self] }
+        set { self[TopSafeAreaInsetKey.self] = newValue }
+    }
+}

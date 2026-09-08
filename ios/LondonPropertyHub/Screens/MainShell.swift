@@ -130,6 +130,7 @@ struct HubHeader: View {
     var onOpenAccount: (() -> Void)?
 
     @Environment(SessionStore.self) private var session
+    @Environment(\.topSafeAreaInset) private var topSafeAreaInset
     @FocusState private var isSearchFocused: Bool
 
     var body: some View {
@@ -162,7 +163,7 @@ struct HubHeader: View {
                         Image(systemName: "person.crop.circle")
                             .font(.system(size: 19))
                             .foregroundStyle(.white)
-                            .frame(width: 40, height: 40)
+                            .frame(width: 44, height: 44)
                             .background(.white.opacity(0.12), in: Circle())
                     }
                     .buttonStyle(.plain)
@@ -236,7 +237,7 @@ struct HubHeader: View {
             }
         }
         .padding(.horizontal, 22)
-        .padding(.top, 12)
+        .padding(.top, topSafeAreaInset + 12)
         .padding(.bottom, 22)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.heroGradient)

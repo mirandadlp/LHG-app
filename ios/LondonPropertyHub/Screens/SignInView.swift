@@ -7,6 +7,7 @@ struct SignInView: View {
     @State private var password = ""
     @State private var showsPassword = false
 
+    @Environment(\.topSafeAreaInset) private var topSafeAreaInset
     @FocusState private var focusedField: Field?
 
     private enum Field { case email, password }
@@ -68,6 +69,7 @@ struct SignInView: View {
                 .fixedSize(horizontal: false, vertical: true)
         }
         .padding(28)
+        .padding(.top, topSafeAreaInset)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.heroGradient)
         .clipShape(
