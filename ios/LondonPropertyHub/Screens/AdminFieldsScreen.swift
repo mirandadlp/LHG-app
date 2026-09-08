@@ -4,6 +4,7 @@ import SwiftUI
 /// here is collected on every property immediately — no rebuild, no release.
 struct AdminFieldsScreen: View {
     @Environment(SessionStore.self) private var session
+    @Environment(\.topSafeAreaInset) private var topSafeAreaInset
 
     @State private var showsNewField = false
     @State private var pendingDeletion: FieldDefinition?
@@ -60,7 +61,7 @@ struct AdminFieldsScreen: View {
                 .foregroundStyle(.white.opacity(0.65))
         }
         .padding(.horizontal, 22)
-        .padding(.top, 24)
+        .padding(.top, topSafeAreaInset + 24)
         .padding(.bottom, 26)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.heroGradient)

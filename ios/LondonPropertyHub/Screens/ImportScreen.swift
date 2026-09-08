@@ -7,6 +7,7 @@ struct ImportScreen: View {
     let portfolio: PortfolioStore
 
     @Environment(SessionStore.self) private var session
+    @Environment(\.topSafeAreaInset) private var topSafeAreaInset
 
     @State private var parse: ImportParse?
     @State private var isBusy = false
@@ -93,7 +94,7 @@ struct ImportScreen: View {
                 .foregroundStyle(.white.opacity(0.65))
         }
         .padding(.horizontal, 22)
-        .padding(.top, 24)
+        .padding(.top, topSafeAreaInset + 24)
         .padding(.bottom, 26)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Theme.heroGradient)

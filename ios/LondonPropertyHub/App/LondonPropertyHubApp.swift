@@ -7,12 +7,18 @@ struct LondonPropertyHubApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
-                .environment(session)
-                .tint(Theme.navy)
-                // The design is a single deliberate light palette; forcing it
-                // keeps the navy-on-lavender contrast the brand depends on.
-                .preferredColorScheme(.light)
+            // Read at the root, where the safe area is still intact: the hero
+            // headers below ignore it so their gradient can reach the top edge,
+            // and by then the inset is no longer theirs to ask for.
+            GeometryReader { proxy in
+                RootView()
+                    .environment(\.topSafeAreaInset, proxy.safeAreaInsets.top)
+            }
+            .environment(session)
+            .tint(Theme.navy)
+            // The design is a single deliberate light palette; forcing it
+            // keeps the navy-on-lavender contrast the brand depends on.
+            .preferredColorScheme(.light)
         }
     }
 }
